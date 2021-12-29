@@ -13,7 +13,6 @@ export const App = () => {
       </Box>
       <Box component="span" display="flex" m={1}>
         <div>
-          <h1>Hello</h1>
           <h3>メニュー</h3>
           <Menu />
         </div>
