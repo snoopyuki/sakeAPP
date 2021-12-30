@@ -1,12 +1,14 @@
 // @ts-nocheck
+// propsの型定義すること！
 
 import React, { useState } from "react";
 import { Button, Drawer } from "@material-ui/core";
 import Box from "@mui/material/Box";
-import { ariaHidden } from "@mui/material";
 
+// ドローワーメニューのスタイル
 const menuStyle = {
-  background: "#AAA"
+  background: "#AAA",
+  hight: "9000"
 };
 
 export const Menu = (props) => {
@@ -18,27 +20,34 @@ export const Menu = (props) => {
   const onClickNextPage = () => {
     // 特に処理はない
   };
+
+  // 都道府県取得のAPI実行
   const onClickDoAPI = () => {
     fetch("https://muro.sakenowa.com/sakenowa-data/api/areas", {
       mode: "cors"
     })
       .then((response) => {
         return response.json();
+        // APIレスポンスはresponse.areas[n]{id:1, name:北海道}
       })
       .then((data) => {
         // ToDO配列の中身をループで回して取得
-        let arrayPre = [];
+        const arrayPre = [];
+        const arrayPreId = [];
         data.areas.map((areas) => {
           arrayPre.push(areas.name);
+          arrayPreId.push(areas.id);
           return 0;
         });
         // API実行結果をpropsに格納
         props.setPrefecture(arrayPre);
-        // 中身の確認
+        props.setPrefectureId(arrayPreId);
+
+        // 中身の確認;
         // data.areas.forEach((elm) => {
-        //       Object.keys(elm).forEach((key) => {
-        // console.log(`key: ${key} value: ${elm[key]}`);
-        //         });
+        //   Object.keys(elm).forEach((key) => {
+        //     console.log(`key: ${key} value: ${elm[key]}`);
+        //   });
         // });
       })
       .catch((error) => {
@@ -56,6 +65,7 @@ export const Menu = (props) => {
         </Button>
         <Drawer anchor="left" open={open} onClose={toggleOpen}>
           <h4>どろわーメニュー</h4>
+          <p>materialUIおためし</p>
           <Box m={1} mt={10} style={menuStyle}>
             <a
               href="https://muro.sakenowa.com/sakenowa-data/api/areas"
@@ -63,6 +73,7 @@ export const Menu = (props) => {
               rel="noreferrer"
             >
               <Button
+                style={{ width: "100%" }}
                 variant="contained"
                 color="primary"
                 onClick={() => onClickNextPage()}
@@ -73,6 +84,7 @@ export const Menu = (props) => {
             <br />
             <br />
             <Button
+              style={{ width: "100%" }}
               variant="contained"
               color="primary"
               onClick={() => {

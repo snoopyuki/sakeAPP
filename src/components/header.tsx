@@ -1,7 +1,9 @@
 // @ts-nocheck
+// propsの型定義すること！
 
 //import AppBar from "@mui/material/AppBar";
 
+// スタイルは適当に試行錯誤中
 const headerStyle = {
   position: "absolute",
   content: "",
