@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React, { useState } from "react";
 import { Button, Drawer } from "@material-ui/core";
 import Box from "@mui/material/Box";
