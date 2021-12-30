@@ -39,7 +39,7 @@ export const Menu = (props) => {
       <div>
         <h3>メニュー</h3>
         <Button variant="outlined" onClick={toggleOpen}>
-          open>>
+          open＞＞
         </Button>
         <Drawer anchor="left" open={open} onClose={toggleOpen}>
           <h4>どろわーメニュー</h4>
