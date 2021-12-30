@@ -49,6 +49,7 @@ export const Menu = (props) => {
             <a
               href="https://muro.sakenowa.com/sakenowa-data/api/areas"
               target="_blank"
+              rel="noreferrer"
             >
               <Button
                 variant="contained"
