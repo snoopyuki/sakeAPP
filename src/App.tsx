@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Button, ButtonGroup } from "@material-ui/core";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 
@@ -7,7 +8,7 @@ import { Header } from "./components/header";
 import "./styles.css";
 
 export const App = () => {
-  const [prefecture, setPrefecture] = useState("都道府県");
+  const [prefecture, setPrefecture] = useState(["都", "道", "府", "県"]);
 
   return (
     <>
@@ -28,7 +29,11 @@ export const App = () => {
           <Box component="span" display="flex" m={1}>
             <div>
               <h3>コンテンツエリア</h3>
-              <p>{prefecture}</p>
+              <ButtonGroup disableElevation variant="contained">
+                {prefecture.map((pre, index) => {
+                  return <Button key={pre}>{pre}</Button>;
+                })}
+              </ButtonGroup>
             </div>
           </Box>
         </Grid>

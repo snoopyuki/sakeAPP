@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Button, Drawer } from "@material-ui/core";
 import Box from "@mui/material/Box";
+import { ariaHidden } from "@mui/material";
 
 const menuStyle = {
   background: "#AAA"
@@ -25,10 +26,20 @@ export const Menu = (props) => {
         return response.json();
       })
       .then((data) => {
+        // ToDO配列の中身をループで回して取得
+        let arrayPre = [];
+        data.areas.map((areas) => {
+          arrayPre.push(areas.name);
+          return 0;
+        });
         // API実行結果をpropsに格納
-        console.log(data.areas[0].name);
-        // ToDO配列の中身をループで回す。
-        props.setPrefecture(data.areas[0].name);
+        props.setPrefecture(arrayPre);
+        // 中身の確認
+        // data.areas.forEach((elm) => {
+        //       Object.keys(elm).forEach((key) => {
+        // console.log(`key: ${key} value: ${elm[key]}`);
+        //         });
+        // });
       })
       .catch((error) => {
         alert("API実行時はCORS問題を解決すること。");
