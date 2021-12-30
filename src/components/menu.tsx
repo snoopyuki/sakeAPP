@@ -8,7 +8,7 @@ import Box from "@mui/material/Box";
 // ドローワーメニューのスタイル
 const menuStyle = {
   background: "#AAA",
-  hight: "9000"
+  height: "auto"
 };
 
 export const Menu = (props) => {
@@ -31,7 +31,7 @@ export const Menu = (props) => {
         // APIレスポンスはresponse.areas[n]{id:1, name:北海道}
       })
       .then((data) => {
-        // ToDO配列の中身をループで回して取得
+        // 配列の中身をループで回して取得
         const arrayPre = [];
         const arrayPreId = [];
         data.areas.map((areas) => {
