@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 //import AppBar from "@mui/material/AppBar";
 
 const headerStyle = {
