@@ -10,6 +10,8 @@ const menuStyle = {
   background: "#AAA",
   height: "auto"
 };
+// 産地取得API実行を1回に制御するフラグ
+let ApiAreasFlag = false;
 
 export const Menu = (props) => {
   const [open, setopen] = useState(false);
@@ -21,39 +23,44 @@ export const Menu = (props) => {
     // 特に処理はない
   };
 
-  // 都道府県取得のAPI実行
+  // 産地取得のAPI実行
   const onClickDoAPI = () => {
-    fetch("https://muro.sakenowa.com/sakenowa-data/api/areas", {
-      mode: "cors"
-    })
-      .then((response) => {
-        return response.json();
-        // APIレスポンスはresponse.areas[n]{id:1, name:北海道}
+    // APIが未実行なら
+    if (!ApiAreasFlag) {
+      ApiAreasFlag = true;
+      fetch("https://muro.sakenowa.com/sakenowa-data/api/areas", {
+        mode: "cors"
       })
-      .then((data) => {
-        // 配列の中身をループで回して取得
-        const arrayPre = [];
-        const arrayPreId = [];
-        data.areas.map((areas) => {
-          arrayPre.push(areas.name);
-          arrayPreId.push(areas.id);
-          return 0;
-        });
-        // API実行結果をpropsに格納
-        props.setPrefecture(arrayPre);
-        props.setPrefectureId(arrayPreId);
+        .then((response) => {
+          return response.json();
+          // APIレスポンスはresponse.areas[n]{id:1, name:北海道}
+        })
+        .then((data) => {
+          // 配列の中身をループで回して取得
+          const arrayPre = [];
+          const arrayPreId = [];
+          data.areas.map((areas) => {
+            arrayPre.push(areas.name);
+            arrayPreId.push(areas.id);
+            return 0;
+          });
+          // API実行結果をpropsに格納
+          props.setPrefecture(arrayPre);
+          props.setPrefectureId(arrayPreId);
 
-        // 中身の確認;
-        // data.areas.forEach((elm) => {
-        //   Object.keys(elm).forEach((key) => {
-        //     console.log(`key: ${key} value: ${elm[key]}`);
-        //   });
-        // });
-      })
-      .catch((error) => {
-        alert("API実行時はCORS問題を解決すること。");
-        console.log("失敗しました");
-      });
+          // 中身の確認;
+          // data.areas.forEach((elm) => {
+          //   Object.keys(elm).forEach((key) => {
+          //     console.log(`key: ${key} value: ${elm[key]}`);
+          //   });
+          // });
+        })
+        .catch((error) => {
+          alert("API実行時はCORS問題を解決すること。");
+          console.log("失敗しました");
+          ApiAreasFlag = false; // API未実行状態に
+        });
+    }
   };
 
   return (
