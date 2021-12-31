@@ -70,7 +70,7 @@ export const App = () => {
         <Grid item xs={8}>
           <Box component="span" m={1}>
             <div>
-              <h3>コンテンツエリア</h3>
+              <h3>都道府県から探す</h3>
               {prefecture.map((pre, index) => {
                 return (
                   <Button
@@ -87,15 +87,12 @@ export const App = () => {
           </Box>
           <Box component="span" m={1}>
             <div>
-              <h3>蔵元エリア {}</h3>
+              <h3>蔵元を指定する</h3>
               {breweries.map((bre, index) => {
                 return (
-                  <div key={bre}>
-                    <Button key={bre} variant="contained">
-                      {bre}
-                    </Button>
-                    <br />
-                  </div>
+                  <Button key={bre} variant="contained">
+                    {bre}
+                  </Button>
                 );
               })}
             </div>
