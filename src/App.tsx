@@ -13,13 +13,27 @@ export const App = () => {
   const [prefecture, setPrefecture] = useState(["都", "道", "府", "県"]);
   // 配列をpropsで渡しても元値を上書きできないのでuseState使う
   const [prefectureId, setPrefectureId] = useState(["0", "1", "2", "3"]);
+  // 都道府県の選択フラグ
+  const [prefectureSelectFlag, setPrefectureSelectFlag] = useState([
+    false,
+    true,
+    false,
+    true
+  ]);
   // 蔵元一覧
   const [breweries, setBreweries] = useState(["蔵元", "表示"]);
 
   // 産地選択後に銘柄を取得する
-  const onClickBreweriesGet = (pre, index) => {
+  const onClickBreweriesGet = (pre, index, setPrefectureSelectFlag) => {
     // prefecture[index]（押下された産地）に対応するprefectureId（API戻り値のID）を取得する方法
     // console.log(prefectureId[index]);
+
+    // 選択されたボタンを非活性にするようにフラグ更新
+    const arrayFlag = prefectureSelectFlag;
+    // 現在trueになっているフラグをリセットする
+    arrayFlag.fill(false);
+    arrayFlag[index] = true;
+    setPrefectureSelectFlag(arrayFlag);
 
     // 蔵元一覧を取得
     fetch("https://muro.sakenowa.com/sakenowa-data/api/breweries", {
@@ -30,6 +44,9 @@ export const App = () => {
         // APIレスポンスはresponse.breweries[n]{id:1, name:蔵元, areaId:地域一覧のID}
       })
       .then((data) => {
+        // ToDo API実行を1回だけにしたい。
+        // 実行有無フラグをグローバルに持たせて、OBJはディープコピーすること。
+        // 一度OBJをJSON形式に戻して再代入するとスムーズ。
         // 配列の中身をループで回して取得
         // 選択された産地の蔵元だけを抽出
         const arrayName = [];
@@ -63,6 +80,7 @@ export const App = () => {
             <Menu
               setPrefecture={setPrefecture}
               setPrefectureId={setPrefectureId}
+              setPrefectureSelectFlag={setPrefectureSelectFlag}
             />
           </Box>
         </Grid>
@@ -76,8 +94,11 @@ export const App = () => {
                   <Button
                     key={pre}
                     variant="contained"
+                    disabled={prefectureSelectFlag[index]}
                     style={{ width: 100 }}
-                    onClick={() => onClickBreweriesGet(pre, index)}
+                    onClick={() =>
+                      onClickBreweriesGet(pre, index, setPrefectureSelectFlag)
+                    }
                   >
                     {pre}
                   </Button>

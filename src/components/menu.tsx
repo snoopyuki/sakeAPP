@@ -39,14 +39,17 @@ export const Menu = (props) => {
           // 配列の中身をループで回して取得
           const arrayPre = [];
           const arrayPreId = [];
+          const arrayPrefectureSelectFlag = [];
           data.areas.map((areas) => {
             arrayPre.push(areas.name);
             arrayPreId.push(areas.id);
+            arrayPrefectureSelectFlag.push(false);
             return 0;
           });
           // API実行結果をpropsに格納
           props.setPrefecture(arrayPre);
           props.setPrefectureId(arrayPreId);
+          props.setPrefectureSelectFlag(arrayPrefectureSelectFlag);
 
           // 中身の確認;
           // data.areas.forEach((elm) => {
