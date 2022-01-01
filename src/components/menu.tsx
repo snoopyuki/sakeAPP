@@ -59,7 +59,9 @@ export const Menu = (props) => {
           // });
         })
         .catch((error) => {
-          alert("API実行時はCORS問題を解決すること。");
+          alert(
+            'API実行時はCORS問題を解決すること。 --disable-web-security --user-data-dir="ディレクトリ"'
+          );
           console.log("失敗しました");
           ApiAreasFlag = false; // API未実行状態に
         });
