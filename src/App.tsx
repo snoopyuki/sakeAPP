@@ -22,6 +22,8 @@ export const App = () => {
   ]);
   // 蔵元一覧
   const [breweries, setBreweries] = useState(["蔵元", "表示"]);
+  // 銘柄コンテンツエリアの制御フラグ
+  const [brandsShowFlag, setBrandsShowFlag] = useState(false);
 
   // 産地選択後に銘柄を取得する
   const onClickBreweriesGet = (pre, index, setPrefectureSelectFlag) => {
@@ -55,6 +57,7 @@ export const App = () => {
           if (bre.areaId === prefectureId[index] && bre.name !== "") {
             arrayName.push(bre.name);
           }
+          return 0;
         });
         // API実行結果をbreweriesに格納
         setBreweries(arrayName);
@@ -111,11 +114,25 @@ export const App = () => {
               <h3>蔵元を指定する</h3>
               {breweries.map((bre, index) => {
                 return (
-                  <Button key={bre} variant="contained">
+                  <Button
+                    key={bre}
+                    variant="contained"
+                    // ホバー処理どう書く？
+                    // style={{ "&:hover": { background: "#f00" } }}
+                  >
                     {bre}
                   </Button>
                 );
               })}
+            </div>
+          </Box>
+          <Box
+            component="span"
+            m={1}
+            style={{ display: brandsShowFlag ? "" : "none" }}
+          >
+            <div>
+              <h3>銘柄を指定する</h3>
             </div>
           </Box>
         </Grid>
