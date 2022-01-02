@@ -133,7 +133,9 @@ export const App = () => {
           <Box
             component="span"
             m={1}
-            style={{ display: stepBarShowFlag ? "" : "none" }}
+            style={{
+              display: stepBarShowFlag ? "" : "none"
+            }}
           >
             <StepBar />
           </Box>
