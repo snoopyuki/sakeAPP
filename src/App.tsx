@@ -75,7 +75,7 @@ export const App = () => {
       <Grid container>
         <Grid item xs={12}>
           <Box component="span" m={5}>
-            <Header>さけのわあぷり</Header>
+            <Header>さけのわでりあくと</Header>
           </Box>
         </Grid>
         {/* ドロワーメニューとAPI実行 */}
