@@ -13,6 +13,7 @@ export const App = () => {
   // useStateの変数をまとめたい
   // APIで取得してきた都道府県を挿入
   const [prefecture, setPrefecture] = useState(["都", "道", "府", "県"]);
+  // APIで取得した都道府県のID。上記とまとめてOBJ化したい。
   // 配列をpropsで渡しても元値を上書きできないのでuseState使う
   const [prefectureId, setPrefectureId] = useState(["0", "1", "2", "3"]);
   // 都道府県の選択フラグ
@@ -24,6 +25,11 @@ export const App = () => {
   ]);
   // 蔵元一覧
   const [breweries, setBreweries] = useState(["蔵元", "表示"]);
+  // 蔵元一覧のID。蒸気とまとめてOBJ化したい
+  const [breweriesId, setBreweriesId] = useState(["0", "1"]);
+
+  // 銘柄一覧
+  const [brands, setBrands] = useState(["銘柄"]);
 
   // 表示フラグまとめたい
   // StepBarの表示フラグ
@@ -58,15 +64,51 @@ export const App = () => {
         // 配列の中身をループで回して取得
         // 選択された産地の蔵元だけを抽出
         const arrayName = [];
+        const arrayNameId = [];
         data.breweries.map((bre) => {
           // 地域が一致かつ蔵元名が空以外を抽出
           if (bre.areaId === prefectureId[index] && bre.name !== "") {
             arrayName.push(bre.name);
+            arrayNameId.push(bre.id);
           }
           return 0;
         });
         // API実行結果をbreweriesに格納
         setBreweries(arrayName);
+        setBreweriesId(arrayNameId);
+      })
+      .catch((error) => {
+        alert("API実行時はCORS問題を解決すること。");
+        console.log("失敗しました");
+      });
+  };
+  // 銘柄一覧を取得
+  const onClickBrandsGet = (bre, index, setBrandsShowFlag, setBrands) => {
+    // 銘柄エリアの表示フラグをON
+    setBrandsShowFlag(true);
+
+    fetch("https://muro.sakenowa.com/sakenowa-data/api/brands", {
+      mode: "cors"
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        // ToDo API実行を1回だけにしたい。
+        // 実行有無フラグをグローバルに持たせて、OBJはディープコピーすること。
+        // 一度OBJをJSON形式に戻して再代入するとスムーズ。
+        // 配列の中身をループで回して取得
+        // 選択された産地の蔵元だけを抽出
+        const arrayName = [];
+        data.brands.map((bra) => {
+          // 銘柄が一致かつ銘柄が空以外を抽出
+          if (bra.breweryId === breweriesId[index] && bra.name !== "") {
+            arrayName.push(bra.name);
+          }
+          return 0;
+        });
+        // API実行結果をbreweriesに格納
+        setBrands(arrayName);
       })
       .catch((error) => {
         alert("API実行時はCORS問題を解決すること。");
@@ -134,8 +176,9 @@ export const App = () => {
                   <Button
                     key={bre}
                     variant="contained"
-                    // ホバー処理どう書く？
-                    // style={{ "&:hover": { background: "#f00" } }}
+                    onClick={() =>
+                      onClickBrandsGet(bre, index, setBrandsShowFlag, setBrands)
+                    }
                   >
                     {bre}
                   </Button>
@@ -150,6 +193,13 @@ export const App = () => {
           >
             <div>
               <h3>銘柄を指定する</h3>
+              {brands.map((bra, index) => {
+                return (
+                  <Button key={bra} variant="contained">
+                    {bra}
+                  </Button>
+                );
+              })}
             </div>
           </Box>
         </Grid>
