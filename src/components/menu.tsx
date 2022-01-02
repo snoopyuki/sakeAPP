@@ -1,28 +1,16 @@
 // @ts-nocheck
 // propsの型定義すること！
 
-import React, { useState } from "react";
-import { Button, Drawer } from "@material-ui/core";
+import React from "react";
+import { Button } from "@material-ui/core";
 import Box from "@mui/material/Box";
 
-// ドローワーメニューのスタイル
-const menuStyle = {
-  background: "#AAA",
-  height: "auto"
-};
+import { DrawerMenu } from "./drawerMenu";
+
 // 産地取得API実行を1回に制御するフラグ
 let ApiAreasFlag = false;
 
 export const Menu = (props) => {
-  const [open, setopen] = useState(false);
-  const toggleOpen = () => {
-    setopen(!open);
-  };
-
-  const onClickNextPage = () => {
-    // 特に処理はない
-  };
-
   // 産地取得のAPI実行
   const onClickDoAPI = () => {
     // APIが未実行なら
@@ -70,44 +58,23 @@ export const Menu = (props) => {
 
   return (
     <>
-      <div>
-        <h3>メニュー</h3>
-        <Button variant="outlined" onClick={toggleOpen}>
-          open＞＞
+      <h3>メニュー</h3>
+      <Box m={2}>
+        <Button
+          style={{ width: "60%" }}
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            onClickDoAPI();
+          }}
+        >
+          産地から選ぶ
         </Button>
-        <Drawer anchor="left" open={open} onClose={toggleOpen}>
-          <h4>どろわーメニュー</h4>
-          <p>materialUIおためし</p>
-          <Box m={1} mt={10} style={menuStyle}>
-            <a
-              href="https://muro.sakenowa.com/sakenowa-data/api/areas"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <Button
-                style={{ width: "100%" }}
-                variant="contained"
-                color="primary"
-                onClick={() => onClickNextPage()}
-              >
-                産地一覧取得WEB遷移
-              </Button>
-            </a>
-            <br />
-            <br />
-            <Button
-              style={{ width: "100%" }}
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                onClickDoAPI();
-              }}
-            >
-              産地一覧取得API実行
-            </Button>
-          </Box>
-        </Drawer>
-      </div>
+        <Button style={{ width: "60%" }} variant="contained" color="primary">
+          ランキング？
+        </Button>
+      </Box>
+      <DrawerMenu />
     </>
   );
 };

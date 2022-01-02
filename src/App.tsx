@@ -9,6 +9,7 @@ import { Footer } from "./components/footer";
 import "./styles.css";
 
 export const App = () => {
+  // useStateの変数をまとめたい
   // APIで取得してきた都道府県を挿入
   const [prefecture, setPrefecture] = useState(["都", "道", "府", "県"]);
   // 配列をpropsで渡しても元値を上書きできないのでuseState使う
