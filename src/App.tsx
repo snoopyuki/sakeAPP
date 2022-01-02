@@ -5,6 +5,7 @@ import Grid from "@mui/material/Grid";
 
 import { Menu } from "./components/menu";
 import { Header } from "./components/header";
+import { StepBar } from "./components/stepBar";
 import { Footer } from "./components/footer";
 import "./styles.css";
 
@@ -23,6 +24,10 @@ export const App = () => {
   ]);
   // 蔵元一覧
   const [breweries, setBreweries] = useState(["蔵元", "表示"]);
+
+  // 表示フラグまとめたい
+  // StepBarの表示フラグ
+  const [stepBarShowFlag, setStepBarShowFlag] = useState(false);
   // 銘柄コンテンツエリアの制御フラグ
   const [brandsShowFlag, setBrandsShowFlag] = useState(false);
 
@@ -78,6 +83,16 @@ export const App = () => {
             <Header>さけのわでりあくと</Header>
           </Box>
         </Grid>
+        {/* ステップバー */}
+        <Grid item xs={12}>
+          <Box
+            component="span"
+            m={1}
+            style={{ display: stepBarShowFlag ? "" : "none" }}
+          >
+            <StepBar />
+          </Box>
+        </Grid>
         {/* ドロワーメニューとAPI実行 */}
         <Grid item xs={4}>
           <Box component="span" m={1}>
@@ -85,6 +100,7 @@ export const App = () => {
               setPrefecture={setPrefecture}
               setPrefectureId={setPrefectureId}
               setPrefectureSelectFlag={setPrefectureSelectFlag}
+              setStepBarShowFlag={setStepBarShowFlag}
             />
           </Box>
         </Grid>

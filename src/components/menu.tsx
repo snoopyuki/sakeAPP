@@ -16,6 +16,7 @@ export const Menu = (props) => {
     // APIが未実行なら
     if (!ApiAreasFlag) {
       ApiAreasFlag = true;
+      props.setStepBarShowFlag(true);
       fetch("https://muro.sakenowa.com/sakenowa-data/api/areas", {
         mode: "cors"
       })
