@@ -41,11 +41,11 @@ export const App = () => {
   // 表示フラグまとめたい
   // StepBarの表示フラグ
   const [stepBarShowFlag, setStepBarShowFlag] = useState(false);
-  // コンテンツエリア初期表示フラグ
+  // 初期コンテンツエリアの表示フラグ
   const [initShowFlag, setinitShowFlag] = useState(true);
-  // 都道府県エリアの初期表示フラグ
+  // 都道府県エリアの表示フラグ
   const [areasShowFlag, setAreasShowFlag] = useState(false);
-  // 蔵元エリアの初期表示フラグ
+  // 蔵元エリアの表示フラグ
   const [breweriesShowFlag, setBreweriesShowFlag] = useState(false);
   // 銘柄エリアの制御フラグ
   const [brandsShowFlag, setBrandsShowFlag] = useState(false);
