@@ -13,10 +13,18 @@ let ApiAreasFlag = false;
 export const Menu = (props) => {
   // 産地取得のAPI実行
   const onClickDoAPI = () => {
+    // ステップバーの表示を更新
+    props.setNowStep(0);
+    // 初期表示時コンテンツエリアの表示フラグをリセット
+    props.setStepBarShowFlag(true);
+    props.setinitShowFlag(false);
+    props.setAreasShowFlag(true);
+    props.setBreweriesShowFlag(false);
+    props.setBrandsShowFlag(false);
+    props.setBrandDetailShowFlag(false);
     // APIが未実行なら
     if (!ApiAreasFlag) {
       ApiAreasFlag = true;
-      props.setStepBarShowFlag(true);
       fetch("https://muro.sakenowa.com/sakenowa-data/api/areas", {
         mode: "cors"
       })

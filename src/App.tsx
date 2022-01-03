@@ -16,49 +16,55 @@ import "./styles.css";
 export const App = () => {
   // useStateの変数をまとめたい
   // APIで取得してきた都道府県を挿入
-  const [prefecture, setPrefecture] = useState(["都", "道", "府", "県"]);
+  const [prefecture, setPrefecture] = useState([]);
   // APIで取得した都道府県のID。上記とまとめてOBJ化したい。
   // 配列をpropsで渡しても元値を上書きできないのでuseState使う
-  const [prefectureId, setPrefectureId] = useState(["0", "1", "2", "3"]);
+  const [prefectureId, setPrefectureId] = useState([]);
   // 都道府県の選択フラグ
-  const [prefectureSelectFlag, setPrefectureSelectFlag] = useState([
-    false,
-    true,
-    false,
-    true
-  ]);
+  const [prefectureSelectFlag, setPrefectureSelectFlag] = useState([]);
 
   // 蔵元一覧
-  const [breweries, setBreweries] = useState(["蔵元", "表示"]);
+  const [breweries, setBreweries] = useState([]);
   // 蔵元一覧のID。上記とまとめてOBJ化したい
-  const [breweriesId, setBreweriesId] = useState(["0", "1"]);
+  const [breweriesId, setBreweriesId] = useState([]);
 
   // 銘柄一覧
-  const [brands, setBrands] = useState(["銘柄"]);
+  const [brands, setBrands] = useState([]);
   // 銘柄一覧のID。上記とまとめてOBJ化したい
-  const [brandsId, setBrandsId] = useState(["111"]);
-  // 選択銘柄のデータ
-  const [brandDetailRadar, setBrandDetailRadar] = useState([
-    { flavor: "華やか", value: 1 },
-    { flavor: "芳醇", value: 0.5 },
-    { flavor: "濃厚", value: 1 },
-    { flavor: "穏やか", value: 0.3 },
-    { flavor: "ドライ", value: 1 },
-    { flavor: "爽快", value: 0.8 }
-  ]);
+  const [brandsId, setBrandsId] = useState([]);
+  // 選択銘柄のフレーバーデータ
+  const [brandDetailRadar, setBrandDetailRadar] = useState([]);
 
   // 表示フラグまとめたい
   // StepBarの表示フラグ
   const [stepBarShowFlag, setStepBarShowFlag] = useState(false);
-  // 銘柄コンテンツエリアの制御フラグ
+  // コンテンツエリア初期表示フラグ
+  const [initShowFlag, setinitShowFlag] = useState(true);
+  // 都道府県エリアの初期表示フラグ
+  const [areasShowFlag, setAreasShowFlag] = useState(false);
+  // 蔵元エリアの初期表示フラグ
+  const [breweriesShowFlag, setBreweriesShowFlag] = useState(false);
+  // 銘柄エリアの制御フラグ
   const [brandsShowFlag, setBrandsShowFlag] = useState(false);
   // 銘柄詳細エリアの制御フラグ
   const [brandDetailShowFlag, setBrandDetailShowFlag] = useState(false);
+
+  const [nowStep, setNowStep] = useState(0);
 
   // 産地選択後に銘柄を取得する
   const onClickBreweriesGet = (pre, index, setPrefectureSelectFlag) => {
     // prefecture[index]（押下された産地）に対応するprefectureId（API戻り値のID）を取得する方法
     // console.log(prefectureId[index]);
+
+    // ステップバーの表示を更新
+    setNowStep(1);
+    // コンテンツエリアの表示制御をリセット
+    setStepBarShowFlag(true);
+    setinitShowFlag(false);
+    setAreasShowFlag(true);
+    setBreweriesShowFlag(true);
+    setBrandsShowFlag(false);
+    setBrandDetailShowFlag(false);
 
     // 選択されたボタンを非活性にするようにフラグ更新
     const arrayFlag = prefectureSelectFlag;
@@ -102,8 +108,15 @@ export const App = () => {
   };
   // 銘柄一覧を取得
   const onClickBrandsGet = (bre, index, setBrandsShowFlag, setBrands) => {
-    // 銘柄エリアの表示フラグをON
+    // ステップバーの表示を更新
+    setNowStep(2);
+    // コンテンツエリアの表示制御をリセット
+    setStepBarShowFlag(true);
+    setinitShowFlag(false);
+    setAreasShowFlag(true);
+    setBreweriesShowFlag(true);
     setBrandsShowFlag(true);
+    setBrandDetailShowFlag(false);
 
     fetch("https://muro.sakenowa.com/sakenowa-data/api/brands", {
       mode: "cors"
@@ -144,8 +157,16 @@ export const App = () => {
     setBrandDetailShowFlag,
     setBrandDetailRadar
   ) => {
-    // 銘柄詳細エリアの表示フラグをON
+    // ステップバーの表示を更新
+    setNowStep(3);
+    // コンテンツエリアの表示制御をリセット
+    setStepBarShowFlag(true);
+    setinitShowFlag(false);
+    setAreasShowFlag(true);
+    setBreweriesShowFlag(true);
+    setBrandsShowFlag(true);
     setBrandDetailShowFlag(true);
+
     // フレーバー情報をリセット
     setBrandDetailRadar([
       { flavor: "華やか", value: 0 },
@@ -207,7 +228,13 @@ export const App = () => {
               setPrefecture={setPrefecture}
               setPrefectureId={setPrefectureId}
               setPrefectureSelectFlag={setPrefectureSelectFlag}
+              setNowStep={setNowStep}
               setStepBarShowFlag={setStepBarShowFlag}
+              setinitShowFlag={setinitShowFlag}
+              setAreasShowFlag={setAreasShowFlag}
+              setBreweriesShowFlag={setBreweriesShowFlag}
+              setBrandsShowFlag={setBrandsShowFlag}
+              setBrandDetailShowFlag={setBrandDetailShowFlag}
             />
           </Box>
         </Grid>
@@ -216,14 +243,30 @@ export const App = () => {
           <Box
             component="span"
             m={1}
-            style={{
-              display: stepBarShowFlag ? "" : "none"
-            }}
+            style={{ display: stepBarShowFlag ? "" : "none" }}
           >
-            <StepBar />
+            <StepBar nowStep={nowStep} />
           </Box>
           {/* コンテンツ配置 */}
-          <Box component="span" m={1}>
+          <Box
+            component="span"
+            m={1}
+            style={{ display: initShowFlag ? "" : "none" }}
+          >
+            <div>
+              <h3>冬休みの自由開発</h3>
+              <p>
+                3日間でサーバレスSPAサイトとCI/CD環境を作ってみた。
+                <br />
+                コードは適当なので要リファクタリング。
+              </p>
+            </div>
+          </Box>
+          <Box
+            component="span"
+            m={1}
+            style={{ display: areasShowFlag ? "" : "none" }}
+          >
             <div>
               <h3>都道府県から探す</h3>
               {prefecture.map((pre, index) => {
@@ -243,7 +286,11 @@ export const App = () => {
               })}
             </div>
           </Box>
-          <Box component="span" m={1}>
+          <Box
+            component="span"
+            m={1}
+            style={{ display: breweriesShowFlag ? "" : "none" }}
+          >
             <div>
               <h3>蔵元を指定する</h3>
               {breweries.map((bre, index) => {
