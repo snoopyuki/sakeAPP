@@ -9,6 +9,7 @@ import Grid from "@mui/material/Grid";
 import { Menu } from "./components/menu";
 import { Header } from "./components/header";
 import { StepBar } from "./components/stepBar";
+import { BrandDetail } from "./components/brandDetail";
 import { Footer } from "./components/footer";
 import "./styles.css";
 
@@ -26,19 +27,33 @@ export const App = () => {
     false,
     true
   ]);
+
   // 蔵元一覧
   const [breweries, setBreweries] = useState(["蔵元", "表示"]);
-  // 蔵元一覧のID。蒸気とまとめてOBJ化したい
+  // 蔵元一覧のID。上記とまとめてOBJ化したい
   const [breweriesId, setBreweriesId] = useState(["0", "1"]);
 
   // 銘柄一覧
   const [brands, setBrands] = useState(["銘柄"]);
+  // 銘柄一覧のID。上記とまとめてOBJ化したい
+  const [brandsId, setBrandsId] = useState(["111"]);
+  // 選択銘柄のデータ
+  const [brandDetailRadar, setBrandDetailRadar] = useState([
+    { flavor: "華やか", value: 1 },
+    { flavor: "芳醇", value: 0.5 },
+    { flavor: "濃厚", value: 1 },
+    { flavor: "穏やか", value: 0.3 },
+    { flavor: "ドライ", value: 1 },
+    { flavor: "爽快", value: 0.8 }
+  ]);
 
   // 表示フラグまとめたい
   // StepBarの表示フラグ
   const [stepBarShowFlag, setStepBarShowFlag] = useState(false);
   // 銘柄コンテンツエリアの制御フラグ
   const [brandsShowFlag, setBrandsShowFlag] = useState(false);
+  // 銘柄詳細エリアの制御フラグ
+  const [brandDetailShowFlag, setBrandDetailShowFlag] = useState(false);
 
   // 産地選択後に銘柄を取得する
   const onClickBreweriesGet = (pre, index, setPrefectureSelectFlag) => {
@@ -103,15 +118,18 @@ export const App = () => {
         // 配列の中身をループで回して取得
         // 選択された産地の蔵元だけを抽出
         const arrayName = [];
+        const arrayNameId = [];
         data.brands.map((bra) => {
-          // 銘柄が一致かつ銘柄が空以外を抽出
+          // 蔵元が一致かつ銘柄が空以外を抽出
           if (bra.breweryId === breweriesId[index] && bra.name !== "") {
             arrayName.push(bra.name);
+            arrayNameId.push(bra.id);
           }
           return 0;
         });
         // API実行結果をbreweriesに格納
         setBrands(arrayName);
+        setBrandsId(arrayNameId);
       })
       .catch((error) => {
         alert("API実行時はCORS問題を解決すること。");
@@ -119,6 +137,60 @@ export const App = () => {
       });
   };
 
+  // 銘柄フレーバー取得
+  const onClickflavorGet = (
+    bra,
+    index,
+    setBrandDetailShowFlag,
+    setBrandDetailRadar
+  ) => {
+    // 銘柄詳細エリアの表示フラグをON
+    setBrandDetailShowFlag(true);
+    // フレーバー情報をリセット
+    setBrandDetailRadar([
+      { flavor: "華やか", value: 0 },
+      { flavor: "芳醇", value: 0 },
+      { flavor: "濃厚", value: 0 },
+      { flavor: "穏やか", value: 0 },
+      { flavor: "ドライ", value: 0 },
+      { flavor: "爽快", value: 0 }
+    ]);
+
+    fetch("https://muro.sakenowa.com/sakenowa-data/api/flavor-charts", {
+      mode: "cors"
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        // ToDo API実行を1回だけにしたい。
+        // 実行有無フラグをグローバルに持たせて、OBJはディープコピーすること。
+        // 一度OBJをJSON形式に戻して再代入するとスムーズ。
+
+        // 配列の中身をループで回して取得
+        // 選択された銘柄のフレーバーだけを抽出
+        data.flavorCharts.map((fla) => {
+          // 銘柄が一致するものを抽出
+          if (fla.brandId === brandsId[index]) {
+            setBrandDetailRadar([
+              // valueだけの代入に書き直したい
+              { flavor: "華やか", value: fla.f1 },
+              { flavor: "芳醇", value: fla.f2 },
+              { flavor: "濃厚", value: fla.f3 },
+              { flavor: "穏やか", value: fla.f4 },
+              { flavor: "ドライ", value: fla.f5 },
+              { flavor: "爽快", value: fla.f6 }
+            ]);
+            // 1回処理したらmapをBreakしたい
+          }
+          return 0;
+        });
+      })
+      .catch((error) => {
+        alert("API実行時はCORS問題を解決すること。");
+        console.log("失敗しました");
+      });
+  };
   return (
     <>
       {/* ヘッダー */}
@@ -126,18 +198,6 @@ export const App = () => {
         <Grid item xs={12}>
           <Box component="span" m={5}>
             <Header>さけのわでりあくと</Header>
-          </Box>
-        </Grid>
-        {/* ステップバー */}
-        <Grid item xs={12}>
-          <Box
-            component="span"
-            m={1}
-            style={{
-              display: stepBarShowFlag ? "" : "none"
-            }}
-          >
-            <StepBar />
           </Box>
         </Grid>
         {/* ドロワーメニューとAPI実行 */}
@@ -151,8 +211,18 @@ export const App = () => {
             />
           </Box>
         </Grid>
-        {/* コンテンツ配置 */}
+        {/* ステップバー */}
         <Grid item xs={8}>
+          <Box
+            component="span"
+            m={1}
+            style={{
+              display: stepBarShowFlag ? "" : "none"
+            }}
+          >
+            <StepBar />
+          </Box>
+          {/* コンテンツ配置 */}
           <Box component="span" m={1}>
             <div>
               <h3>都道府県から探す</h3>
@@ -200,11 +270,32 @@ export const App = () => {
               <h3>銘柄を指定する</h3>
               {brands.map((bra, index) => {
                 return (
-                  <Button key={bra} variant="contained">
+                  <Button
+                    key={bra}
+                    variant="contained"
+                    onClick={() =>
+                      onClickflavorGet(
+                        bra,
+                        index,
+                        setBrandDetailShowFlag,
+                        setBrandDetailRadar
+                      )
+                    }
+                  >
                     {bra}
                   </Button>
                 );
               })}
+            </div>
+          </Box>
+          <Box
+            component="span"
+            m={1}
+            style={{ display: brandDetailShowFlag ? "" : "none" }}
+          >
+            <div>
+              <h3>銘柄詳細</h3>
+              <BrandDetail brandDetailRadar={brandDetailRadar}></BrandDetail>
             </div>
           </Box>
         </Grid>

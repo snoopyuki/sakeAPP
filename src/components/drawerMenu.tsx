@@ -14,13 +14,16 @@ const menuStyle = {
 export const DrawerMenu = () => {
   const [open, setopen] = useState(false);
 
-  const onClickNextPage = () => {
-    // 特に処理はない
-  };
   const toggleOpen = () => {
     setopen(!open);
   };
-
+  const onClickNextPage = () => {
+    // 特に処理はない
+  };
+  // テストしたい処理に書き換えて
+  const onClickTest = () => {
+    // テストしたい処理に書き換えて
+  };
   return (
     <Box m={1}>
       <Button variant="outlined" color="secondary" onClick={toggleOpen}>
@@ -86,6 +89,16 @@ export const DrawerMenu = () => {
               color="secondary"
             >
               API実行結果を画面出力したい
+            </Button>
+          </div>
+          <div>
+            <Button
+              style={{ width: "100%" }}
+              variant="contained"
+              color="secondary"
+              onClick={() => onClickTest()}
+            >
+              いろいろテスト
             </Button>
           </div>
         </Box>
