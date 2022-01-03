@@ -26,11 +26,15 @@ export const App = () => {
   const [breweries, setBreweries] = useState([]);
   // 蔵元一覧のID。上記とまとめてOBJ化したい
   const [breweriesId, setBreweriesId] = useState([]);
+  // 蔵元の選択フラグ
+  const [breweriesSelectFlag, setBreweriesSelectFlag] = useState([]);
 
   // 銘柄一覧
   const [brands, setBrands] = useState([]);
   // 銘柄一覧のID。上記とまとめてOBJ化したい
   const [brandsId, setBrandsId] = useState([]);
+  // 銘柄の選択フラグ
+  const [brandsSelectFlag, setbrandsSelectFlag] = useState([]);
   // 選択銘柄のフレーバーデータ
   const [brandDetailRadar, setBrandDetailRadar] = useState([]);
 
@@ -48,6 +52,7 @@ export const App = () => {
   // 銘柄詳細エリアの制御フラグ
   const [brandDetailShowFlag, setBrandDetailShowFlag] = useState(false);
 
+  // ステップバーの現在の段階
   const [nowStep, setNowStep] = useState(0);
 
   // 産地選択後に銘柄を取得する
@@ -88,17 +93,20 @@ export const App = () => {
         // 選択された産地の蔵元だけを抽出
         const arrayName = [];
         const arrayNameId = [];
+        const arrayNameSelectFlag = [];
         data.breweries.map((bre) => {
           // 地域が一致かつ蔵元名が空以外を抽出
           if (bre.areaId === prefectureId[index] && bre.name !== "") {
             arrayName.push(bre.name);
             arrayNameId.push(bre.id);
+            arrayNameSelectFlag.push(false);
           }
           return 0;
         });
         // API実行結果をbreweriesに格納
         setBreweries(arrayName);
         setBreweriesId(arrayNameId);
+        setBreweriesSelectFlag(arrayNameSelectFlag);
       })
       .catch((error) => {
         alert("API実行時はCORS問題を解決すること。");
@@ -117,6 +125,13 @@ export const App = () => {
     setBrandsShowFlag(true);
     setBrandDetailShowFlag(false);
 
+    // 選択されたボタンを非活性にするようにフラグ更新
+    const arrayFlag = breweriesSelectFlag;
+    // 現在trueになっているフラグをリセットする
+    arrayFlag.fill(false);
+    arrayFlag[index] = true;
+    setBreweriesSelectFlag(arrayFlag);
+
     fetch("https://muro.sakenowa.com/sakenowa-data/api/brands", {
       mode: "cors"
     })
@@ -131,17 +146,20 @@ export const App = () => {
         // 選択された産地の蔵元だけを抽出
         const arrayName = [];
         const arrayNameId = [];
+        const arrayNameSelectFlag = [];
         data.brands.map((bra) => {
           // 蔵元が一致かつ銘柄が空以外を抽出
           if (bra.breweryId === breweriesId[index] && bra.name !== "") {
             arrayName.push(bra.name);
             arrayNameId.push(bra.id);
+            arrayNameSelectFlag.push(false);
           }
           return 0;
         });
         // API実行結果をbreweriesに格納
         setBrands(arrayName);
         setBrandsId(arrayNameId);
+        setbrandsSelectFlag(arrayNameSelectFlag);
       })
       .catch((error) => {
         alert("API実行時はCORS問題を解決すること。");
@@ -165,6 +183,13 @@ export const App = () => {
     setBreweriesShowFlag(true);
     setBrandsShowFlag(true);
     setBrandDetailShowFlag(true);
+
+    // 選択されたボタンを非活性にするようにフラグ更新
+    const arrayFlag = brandsSelectFlag;
+    // 現在trueになっているフラグをリセットする
+    arrayFlag.fill(false);
+    arrayFlag[index] = true;
+    setbrandsSelectFlag(arrayFlag);
 
     // フレーバー情報をリセット
     setBrandDetailRadar([
@@ -297,6 +322,7 @@ export const App = () => {
                   <Button
                     key={bre}
                     variant="contained"
+                    disabled={breweriesSelectFlag[index]}
                     onClick={() =>
                       onClickBrandsGet(bre, index, setBrandsShowFlag, setBrands)
                     }
@@ -319,6 +345,7 @@ export const App = () => {
                   <Button
                     key={bra}
                     variant="contained"
+                    disabled={brandsSelectFlag[index]}
                     onClick={() =>
                       onClickflavorGet(
                         bra,
