@@ -6,12 +6,11 @@ import { Button } from "@material-ui/core";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 
-import { Menu } from "./components/menu";
 import { Header } from "./components/header";
+import { Menu } from "./components/menu";
 import { StepBar } from "./components/stepBar";
 import { BrandDetail } from "./components/brandDetail";
 import { Footer } from "./components/footer";
-import "./styles.css";
 
 export const App = () => {
   // useStateの変数をまとめたい
