@@ -25,9 +25,12 @@ export const Menu = (props) => {
     // APIが未実行なら
     if (!ApiAreasFlag) {
       ApiAreasFlag = true;
-      fetch("https://muro.sakenowa.com/sakenowa-data/api/areas", {
-        mode: "cors"
-      })
+      fetch(
+        "https://4deralr2qh.execute-api.ap-northeast-1.amazonaws.com/sakeAPI/areas",
+        {
+          mode: "cors"
+        }
+      )
         .then((response) => {
           return response.json();
           // APIレスポンスはresponse.areas[n]{id:1, name:北海道}

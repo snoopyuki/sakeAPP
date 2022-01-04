@@ -79,9 +79,12 @@ export const App = () => {
     setPrefectureSelectFlag(arrayFlag);
 
     // 蔵元一覧を取得
-    fetch("https://muro.sakenowa.com/sakenowa-data/api/breweries", {
-      mode: "cors"
-    })
+    fetch(
+      "https://4deralr2qh.execute-api.ap-northeast-1.amazonaws.com/sakeAPI/breweries",
+      {
+        mode: "cors"
+      }
+    )
       .then((response) => {
         return response.json();
         // APIレスポンスはresponse.breweries[n]{id:1, name:蔵元, areaId:地域一覧のID}
@@ -133,9 +136,12 @@ export const App = () => {
     arrayFlag[index] = true;
     setBreweriesSelectFlag(arrayFlag);
 
-    fetch("https://muro.sakenowa.com/sakenowa-data/api/brands", {
-      mode: "cors"
-    })
+    fetch(
+      "https://4deralr2qh.execute-api.ap-northeast-1.amazonaws.com/sakeAPI/brands",
+      {
+        mode: "cors"
+      }
+    )
       .then((response) => {
         return response.json();
       })
@@ -202,9 +208,12 @@ export const App = () => {
       { flavor: "爽快", value: 0 }
     ]);
 
-    fetch("https://muro.sakenowa.com/sakenowa-data/api/flavor-charts", {
-      mode: "cors"
-    })
+    fetch(
+      "https://4deralr2qh.execute-api.ap-northeast-1.amazonaws.com/sakeAPI/flavorcharts",
+      {
+        mode: "cors"
+      }
+    )
       .then((response) => {
         return response.json();
       })
