@@ -79,8 +79,21 @@ export const Menu = (props) => {
         >
           産地から選ぶ
         </Button>
-        <Button style={{ width: "60%" }} variant="contained" color="primary">
-          ランキング？
+        <Button
+          style={{ width: "60%" }}
+          disabled={true}
+          variant="contained"
+          color="primary"
+        >
+          フレーバーから選ぶ
+        </Button>
+        <Button
+          style={{ width: "60%" }}
+          disabled={true}
+          variant="contained"
+          color="primary"
+        >
+          ランキング
         </Button>
       </Box>
       <DrawerMenu />
