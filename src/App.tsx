@@ -9,6 +9,7 @@ import Grid from "@mui/material/Grid";
 import { Header } from "./components/header";
 import { Menu } from "./components/menu";
 import { StepBar } from "./components/stepBar";
+import { InitContents } from "./components/initContents";
 import { BrandDetail } from "./components/brandDetail";
 import { Footer } from "./components/footer";
 
@@ -278,12 +279,7 @@ export const App = () => {
             style={{ display: initShowFlag ? "" : "none" }}
           >
             <div>
-              <h3>冬休みの自由開発</h3>
-              <p>
-                3日間でサーバレスSPAサイトとCI/CD環境を作ってみた。
-                <br />
-                コードは適当なので要リファクタリング。
-              </p>
+              <InitContents />
             </div>
           </Box>
           <Box
