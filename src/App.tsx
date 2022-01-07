@@ -1,5 +1,6 @@
 // @ts-nocheck
 // buildとすために暫定対策
+// 誰かが編集してコンフリフトを起こした場合。
 
 import React, { useState } from "react";
 import { Button } from "@material-ui/core";
