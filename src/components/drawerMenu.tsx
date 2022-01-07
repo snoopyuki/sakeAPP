@@ -2,7 +2,15 @@
 // propsの型定義すること！
 
 import React, { useState } from "react";
-import { Button, Drawer } from "@material-ui/core";
+import {
+  Button,
+  Drawer,
+  FormGroup,
+  FormControlLabel,
+  Switch,
+  checked,
+  toggleChecked
+} from "@material-ui/core";
 import Box from "@mui/material/Box";
 
 // ドローワーメニューのスタイル
@@ -19,10 +27,25 @@ export const DrawerMenu = () => {
   };
   const onClickNextPage = () => {
     // 特に処理はない
+    // aタグリンクよりクリックイベント拾う方が良い？
+  };
+  // CORS問題が出るAPIを実行
+  const onClickCors = () => {
+    fetch("https://muro.sakenowa.com/sakenowa-data/api/areas")
+      .then((response) => {
+        // 処理なし
+      })
+      .catch((error) => {
+        alert("API実行時はCORS問題を解決すること。");
+        console.log("API実行に失敗しました");
+      });
   };
   // テストしたい処理に書き換えて
   const onClickTest = () => {
     // テストしたい処理に書き換えて
+  };
+  const toggleChecked = (checked) => {
+    console.log(checked);
   };
   return (
     <Box m={1}>
@@ -87,8 +110,9 @@ export const DrawerMenu = () => {
               style={{ width: "100%" }}
               variant="contained"
               color="secondary"
+              onClick={() => onClickCors()}
             >
-              API実行結果を画面出力したい
+              CORS問題再現
             </Button>
           </div>
           <div>
@@ -101,6 +125,14 @@ export const DrawerMenu = () => {
               いろいろテスト
             </Button>
           </div>
+          <br />
+          <FormGroup>
+            <FormControlLabel
+              control={<Switch checked={checked} onChange={toggleChecked} />}
+              label="スタブモード"
+              labelPlacement="start"
+            />
+          </FormGroup>
         </Box>
       </Drawer>
     </Box>

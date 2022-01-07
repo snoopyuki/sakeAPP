@@ -1,6 +1,5 @@
 // @ts-nocheck
 // buildとすために暫定対策
-// GITTEST
 
 import React, { useState } from "react";
 import { Button } from "@material-ui/core";
@@ -123,6 +122,7 @@ export const App = () => {
     // ステップバーの表示を更新
     setNowStep(2);
     // コンテンツエリアの表示制御をリセット
+    // 関数化したいな
     setStepBarShowFlag(true);
     setinitShowFlag(false);
     setAreasShowFlag(true);
