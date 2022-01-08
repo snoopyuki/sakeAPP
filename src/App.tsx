@@ -1,6 +1,5 @@
 // @ts-nocheck
 // buildとすために暫定対策
-// GITTEST
 
 import React, { useState } from "react";
 import { Button } from "@material-ui/core";
@@ -13,8 +12,15 @@ import { StepBar } from "./components/stepBar";
 import { InitContents } from "./components/initContents";
 import { BrandDetail } from "./components/brandDetail";
 import { Footer } from "./components/footer";
+import {
+  getApiUrlBrands,
+  getApiUrlBreweries,
+  getApiUrlFlavorCharts
+} from "./components/getApiUrl";
 
 export const App = () => {
+  // グローバスステートの管理方法どうするか決める
+
   // useStateの変数をまとめたい
   // APIで取得してきた都道府県を挿入
   const [prefecture, setPrefecture] = useState([]);
@@ -57,6 +63,9 @@ export const App = () => {
   // ステップバーの現在の段階
   const [nowStep, setNowStep] = useState(0);
 
+  // スタブモードの状態を保持
+  const [stubMode, setStubMode] = useState(true);
+
   // 産地選択後に銘柄を取得する
   const onClickBreweriesGet = (pre, index, setPrefectureSelectFlag) => {
     // prefecture[index]（押下された産地）に対応するprefectureId（API戻り値のID）を取得する方法
@@ -80,12 +89,7 @@ export const App = () => {
     setPrefectureSelectFlag(arrayFlag);
 
     // 蔵元一覧を取得
-    fetch(
-      "https://4deralr2qh.execute-api.ap-northeast-1.amazonaws.com/sakeAPI/breweries",
-      {
-        mode: "cors"
-      }
-    )
+    fetch(getApiUrlBreweries(stubMode), { mode: "cors" })
       .then((response) => {
         return response.json();
         // APIレスポンスはresponse.breweries[n]{id:1, name:蔵元, areaId:地域一覧のID}
@@ -123,6 +127,7 @@ export const App = () => {
     // ステップバーの表示を更新
     setNowStep(2);
     // コンテンツエリアの表示制御をリセット
+    // 関数化したいな
     setStepBarShowFlag(true);
     setinitShowFlag(false);
     setAreasShowFlag(true);
@@ -137,12 +142,7 @@ export const App = () => {
     arrayFlag[index] = true;
     setBreweriesSelectFlag(arrayFlag);
 
-    fetch(
-      "https://4deralr2qh.execute-api.ap-northeast-1.amazonaws.com/sakeAPI/brands",
-      {
-        mode: "cors"
-      }
-    )
+    fetch(getApiUrlBrands(stubMode), { mode: "cors" })
       .then((response) => {
         return response.json();
       })
@@ -209,12 +209,7 @@ export const App = () => {
       { flavor: "爽快", value: 0 }
     ]);
 
-    fetch(
-      "https://4deralr2qh.execute-api.ap-northeast-1.amazonaws.com/sakeAPI/flavorcharts",
-      {
-        mode: "cors"
-      }
-    )
+    fetch(getApiUrlFlavorCharts(stubMode), { mode: "cors" })
       .then((response) => {
         return response.json();
       })
@@ -270,6 +265,8 @@ export const App = () => {
               setBreweriesShowFlag={setBreweriesShowFlag}
               setBrandsShowFlag={setBrandsShowFlag}
               setBrandDetailShowFlag={setBrandDetailShowFlag}
+              stubMode={stubMode}
+              setStubMode={setStubMode}
             />
           </Box>
         </Grid>

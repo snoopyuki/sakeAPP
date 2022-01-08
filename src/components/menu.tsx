@@ -6,6 +6,7 @@ import { Button } from "@material-ui/core";
 import Box from "@mui/material/Box";
 
 import { DrawerMenu } from "./drawerMenu";
+import { getApiUrlAreas } from "./getApiUrl";
 
 // 産地取得API実行を1回に制御するフラグ
 let ApiAreasFlag = false;
@@ -25,12 +26,7 @@ export const Menu = (props) => {
     // APIが未実行なら
     if (!ApiAreasFlag) {
       ApiAreasFlag = true;
-      fetch(
-        "https://4deralr2qh.execute-api.ap-northeast-1.amazonaws.com/sakeAPI/areas",
-        {
-          mode: "cors"
-        }
-      )
+      fetch(getApiUrlAreas(props.stubMode), { mode: "cors" })
         .then((response) => {
           return response.json();
           // APIレスポンスはresponse.areas[n]{id:1, name:北海道}
@@ -99,7 +95,7 @@ export const Menu = (props) => {
           ランキング
         </Button>
       </Box>
-      <DrawerMenu />
+      <DrawerMenu stubMode={props.stubMode} setStubMode={props.setStubMode} />
     </>
   );
 };

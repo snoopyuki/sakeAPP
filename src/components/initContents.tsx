@@ -18,12 +18,8 @@ const backLog = [
     s: "6次元ベクトルでクラスタリングして近似値をとる銘柄を探す。"
   },
   {
-    p: "CORS問題解消",
-    s: "外部API実行はAPI Gateway⇒Lamdbaを活用する"
-  },
-  {
     p: "公開方式最適化",
-    s: "S3直公開からRoute53／CloudFront利用に変更する"
+    s: "Build時にCloudFrontのキャッシュをクリアする"
   },
   {
     p: "デザインをまともに",
