@@ -21,7 +21,7 @@ export const DrawerMenu = () => {
   // ドロワーメニューの開閉状態
   const [open, setopen] = useState(false);
   // スタブモードの状態を保持
-  const [stabMode, setStabMode] = React.useState(true);
+  const [stubMode, setStubMode] = React.useState(true);
 
   const toggleOpen = () => {
     setopen(!open);
@@ -46,8 +46,8 @@ export const DrawerMenu = () => {
     // テストしたい処理に書き換えて
   };
 
-  const onChangeStabMode = (event) => {
-    setStabMode(event.target.checked);
+  const onChangeStubMode = (event) => {
+    setStubMode(event.target.checked);
   };
   return (
     <Box m={1}>
@@ -131,7 +131,7 @@ export const DrawerMenu = () => {
           <FormGroup>
             <FormControlLabel
               control={
-                <Switch checked={stabMode} onChange={onChangeStabMode} />
+                <Switch checked={stubMode} onChange={onChangeStubMode} />
               }
               label="スタブモード"
               labelPlacement="start"

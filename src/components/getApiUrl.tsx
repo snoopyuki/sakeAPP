@@ -10,7 +10,7 @@ const urlList = {
     brandFlavorTags: "TBD"
   },
   // スタブモードの時に呼び出すURL
-  stab: {
+  stub: {
     areas:
       "https://4deralr2qh.execute-api.ap-northeast-1.amazonaws.com/sakeAPI/areas",
     brands: "TBD",
@@ -23,9 +23,9 @@ const urlList = {
 };
 
 // 地域一覧のAPI実行先をスタブモードに応じて返却
-export const getApiUrlAreas = (stabModeFlag: Boolean): String => {
+export const getApiUrlAreas = (stubModeFlag: Boolean): String => {
   // スタブモードのURL
-  if (stabModeFlag) return urlList.stab.areas;
+  if (stubModeFlag) return urlList.stub.areas;
   // CORS問題を解決するだけのURL（GW経由でHeader付与）
   else return urlList.normal.areas;
 };
