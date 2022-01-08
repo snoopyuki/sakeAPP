@@ -29,6 +29,13 @@ const urlList = {
       "https://4deralr2qh.execute-api.ap-northeast-1.amazonaws.com/sakeAPI/flavorcharts",
     flavorTags: "TBD",
     brandFlavorTags: "TBD"
+  },
+  // 直接実行（API実行するとCORS問題発生）
+  sakenowa: {
+    areas: "https://muro.sakenowa.com/sakenowa-data/api/areas",
+    brands: "https://muro.sakenowa.com/sakenowa-data/api/brands",
+    breweries: "https://muro.sakenowa.com/sakenowa-data/api/breweries",
+    flavorCharts: "https://muro.sakenowa.com/sakenowa-data/api/flavor-charts"
   }
 };
 
@@ -59,4 +66,17 @@ export const getApiUrlFlavorCharts = (stubModeFlag: Boolean): String => {
   if (stubModeFlag) return urlList.stub.flavorCharts;
   // CORS問題を解決するだけのURL（GW経由でHeader付与）
   else return urlList.normal.flavorCharts;
+};
+
+export const getApiUrlSakenowaAreas = (): String => {
+  return urlList.sakenowa.areas;
+};
+export const getApiUrlSakenowaBrands = (): String => {
+  return urlList.sakenowa.brands;
+};
+export const getApiUrlSakenowaBreweries = (): String => {
+  return urlList.sakenowa.breweries;
+};
+export const getApiUrlSakenowaFlavorCharts = (): String => {
+  return urlList.sakenowa.flavorCharts;
 };

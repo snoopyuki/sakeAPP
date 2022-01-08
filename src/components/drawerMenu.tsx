@@ -10,6 +10,12 @@ import {
   Switch
 } from "@material-ui/core";
 import Box from "@mui/material/Box";
+import {
+  getApiUrlSakenowaAreas,
+  getApiUrlSakenowaBrands,
+  getApiUrlSakenowaBreweries,
+  getApiUrlSakenowaFlavorCharts
+} from "./getApiUrl";
 
 // ドローワーメニューのスタイル
 const menuStyle = {
@@ -30,7 +36,7 @@ export const DrawerMenu = (props) => {
   };
   // CORS問題が出るAPIを実行
   const onClickCors = () => {
-    fetch("https://muro.sakenowa.com/sakenowa-data/api/areas")
+    fetch(getApiUrlSakenowaAreas())
       .then((response) => {
         // 処理なし
       })
@@ -44,8 +50,10 @@ export const DrawerMenu = (props) => {
     // テストしたい処理に書き換えて
   };
 
+  // スタブモードの切替
   const onChangeStubMode = (event) => {
     props.setStubMode(event.target.checked);
+    // コンテンツエリアの初期化処理を入れて方がいいかな
   };
   return (
     <Box m={1}>
@@ -56,11 +64,7 @@ export const DrawerMenu = (props) => {
         <h4>開発者メニュー</h4>
         <Box m={1} style={menuStyle}>
           <div>
-            <a
-              href="https://muro.sakenowa.com/sakenowa-data/api/areas"
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a href={getApiUrlSakenowaAreas()} target="_blank" rel="noreferrer">
               <Button
                 style={{ width: "100%" }}
                 variant="contained"
@@ -74,7 +78,7 @@ export const DrawerMenu = (props) => {
           {/* 処理まとめたい */}
           <div>
             <a
-              href="https://muro.sakenowa.com/sakenowa-data/api/brands"
+              href={getApiUrlSakenowaBrands()}
               target="_blank"
               rel="noreferrer"
             >
@@ -90,7 +94,7 @@ export const DrawerMenu = (props) => {
           </div>
           <div>
             <a
-              href="https://muro.sakenowa.com/sakenowa-data/api/breweries"
+              href={getApiUrlSakenowaBreweries()}
               target="_blank"
               rel="noreferrer"
             >
@@ -101,6 +105,22 @@ export const DrawerMenu = (props) => {
                 onClick={() => onClickNextPage()}
               >
                 蔵元一覧WEB遷移
+              </Button>
+            </a>
+          </div>
+          <div>
+            <a
+              href={getApiUrlSakenowaFlavorCharts()}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Button
+                style={{ width: "100%" }}
+                variant="contained"
+                color="secondary"
+                onClick={() => onClickNextPage()}
+              >
+                フレーバWEB遷移
               </Button>
             </a>
           </div>

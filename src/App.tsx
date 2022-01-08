@@ -12,6 +12,11 @@ import { StepBar } from "./components/stepBar";
 import { InitContents } from "./components/initContents";
 import { BrandDetail } from "./components/brandDetail";
 import { Footer } from "./components/footer";
+import {
+  getApiUrlBrands,
+  getApiUrlBreweries,
+  getApiUrlFlavorCharts
+} from "./components/getApiUrl";
 
 export const App = () => {
   // グローバスステートの管理方法どうするか決める
@@ -84,12 +89,7 @@ export const App = () => {
     setPrefectureSelectFlag(arrayFlag);
 
     // 蔵元一覧を取得
-    fetch(
-      "https://4deralr2qh.execute-api.ap-northeast-1.amazonaws.com/sakeAPI/breweries",
-      {
-        mode: "cors"
-      }
-    )
+    fetch(getApiUrlBreweries(stubMode), { mode: "cors" })
       .then((response) => {
         return response.json();
         // APIレスポンスはresponse.breweries[n]{id:1, name:蔵元, areaId:地域一覧のID}
@@ -142,12 +142,7 @@ export const App = () => {
     arrayFlag[index] = true;
     setBreweriesSelectFlag(arrayFlag);
 
-    fetch(
-      "https://4deralr2qh.execute-api.ap-northeast-1.amazonaws.com/sakeAPI/brands",
-      {
-        mode: "cors"
-      }
-    )
+    fetch(getApiUrlBrands(stubMode), { mode: "cors" })
       .then((response) => {
         return response.json();
       })
@@ -214,12 +209,7 @@ export const App = () => {
       { flavor: "爽快", value: 0 }
     ]);
 
-    fetch(
-      "https://4deralr2qh.execute-api.ap-northeast-1.amazonaws.com/sakeAPI/flavorcharts",
-      {
-        mode: "cors"
-      }
-    )
+    fetch(getApiUrlFlavorCharts(stubMode), { mode: "cors" })
       .then((response) => {
         return response.json();
       })
