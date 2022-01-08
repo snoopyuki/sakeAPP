@@ -7,9 +7,7 @@ import {
   Drawer,
   FormGroup,
   FormControlLabel,
-  Switch,
-  checked,
-  toggleChecked
+  Switch
 } from "@material-ui/core";
 import Box from "@mui/material/Box";
 
@@ -20,7 +18,10 @@ const menuStyle = {
 };
 
 export const DrawerMenu = () => {
+  // ドロワーメニューの開閉状態
   const [open, setopen] = useState(false);
+  // スタブモードの状態を保持
+  const [stabMode, setStabMode] = React.useState(true);
 
   const toggleOpen = () => {
     setopen(!open);
@@ -44,8 +45,9 @@ export const DrawerMenu = () => {
   const onClickTest = () => {
     // テストしたい処理に書き換えて
   };
-  const toggleChecked = (checked) => {
-    console.log(checked);
+
+  const onChangeStabMode = (event) => {
+    setStabMode(event.target.checked);
   };
   return (
     <Box m={1}>
@@ -128,7 +130,9 @@ export const DrawerMenu = () => {
           <br />
           <FormGroup>
             <FormControlLabel
-              control={<Switch checked={checked} onChange={toggleChecked} />}
+              control={
+                <Switch checked={stabMode} onChange={onChangeStabMode} />
+              }
               label="スタブモード"
               labelPlacement="start"
             />
