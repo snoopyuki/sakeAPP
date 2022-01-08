@@ -17,11 +17,9 @@ const menuStyle = {
   height: "auto"
 };
 
-export const DrawerMenu = () => {
+export const DrawerMenu = (props) => {
   // ドロワーメニューの開閉状態
   const [open, setopen] = useState(false);
-  // スタブモードの状態を保持
-  const [stubMode, setStubMode] = useState(true);
 
   const toggleOpen = () => {
     setopen(!open);
@@ -47,7 +45,7 @@ export const DrawerMenu = () => {
   };
 
   const onChangeStubMode = (event) => {
-    setStubMode(event.target.checked);
+    props.setStubMode(event.target.checked);
   };
   return (
     <Box m={1}>
@@ -131,7 +129,7 @@ export const DrawerMenu = () => {
           <FormGroup>
             <FormControlLabel
               control={
-                <Switch checked={stubMode} onChange={onChangeStubMode} />
+                <Switch checked={props.stubMode} onChange={onChangeStubMode} />
               }
               label="スタブモード"
               labelPlacement="start"

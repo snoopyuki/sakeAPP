@@ -99,7 +99,7 @@ export const Menu = (props) => {
           ランキング
         </Button>
       </Box>
-      <DrawerMenu />
+      <DrawerMenu stubMode={props.stubMode} setStubMode={props.setStubMode} />
     </>
   );
 };

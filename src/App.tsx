@@ -58,6 +58,9 @@ export const App = () => {
   // ステップバーの現在の段階
   const [nowStep, setNowStep] = useState(0);
 
+  // スタブモードの状態を保持
+  const [stubMode, setStubMode] = useState(true);
+
   // 産地選択後に銘柄を取得する
   const onClickBreweriesGet = (pre, index, setPrefectureSelectFlag) => {
     // prefecture[index]（押下された産地）に対応するprefectureId（API戻り値のID）を取得する方法
@@ -272,6 +275,8 @@ export const App = () => {
               setBreweriesShowFlag={setBreweriesShowFlag}
               setBrandsShowFlag={setBrandsShowFlag}
               setBrandDetailShowFlag={setBrandDetailShowFlag}
+              stubMode={stubMode}
+              setStubMode={setStubMode}
             />
           </Box>
         </Grid>
