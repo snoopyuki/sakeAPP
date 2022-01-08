@@ -21,7 +21,7 @@ export const DrawerMenu = () => {
   // ドロワーメニューの開閉状態
   const [open, setopen] = useState(false);
   // スタブモードの状態を保持
-  const [stubMode, setStubMode] = React.useState(true);
+  const [stubMode, setStubMode] = useState(true);
 
   const toggleOpen = () => {
     setopen(!open);

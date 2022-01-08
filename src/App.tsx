@@ -14,6 +14,8 @@ import { BrandDetail } from "./components/brandDetail";
 import { Footer } from "./components/footer";
 
 export const App = () => {
+  // グローバスステートの管理方法どうするか決める
+
   // useStateの変数をまとめたい
   // APIで取得してきた都道府県を挿入
   const [prefecture, setPrefecture] = useState([]);
