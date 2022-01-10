@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { Button } from "@material-ui/core";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
+import axios from 'axios'
 
 import { Header } from "./components/header";
 import { Menu } from "./components/menu";
@@ -45,6 +46,12 @@ export const App = () => {
   const [brandsSelectFlag, setbrandsSelectFlag] = useState([]);
   // 選択銘柄のフレーバーデータ
   const [brandDetailRadar, setBrandDetailRadar] = useState([]);
+  // 選択した銘柄のbrandId
+  const [selectBrandId, setSelectBrandId] = useState(0);
+  // 選択した銘柄のフレーバータグ配列
+  const [selectBrandFlavorTags, setSelectBrandFlavorTags] = useState([]);
+  // apiから取得したフレーバータグ一覧
+  const [flavorTags, setFlavorTags] = useState([]);
 
   // 表示フラグまとめたい
   // StepBarの表示フラグ
@@ -166,7 +173,9 @@ export const App = () => {
         });
         // API実行結果をbreweriesに格納
         setBrands(arrayName);
+        console.log(arrayName);
         setBrandsId(arrayNameId);
+        console.log(arrayNameId);
         setbrandsSelectFlag(arrayNameSelectFlag);
       })
       .catch((error) => {
@@ -218,6 +227,11 @@ export const App = () => {
         // 実行有無フラグをグローバルに持たせて、OBJはディープコピーすること。
         // 一度OBJをJSON形式に戻して再代入するとスムーズ。
 
+        console.log("選択した銘柄id" + brandsId[index]);
+        // 選択した銘柄のidを状態として持つように変更
+        setSelectBrandId(brandsId[index]);
+        console.log("選択した銘柄idをセットした" + selectBrandId);
+
         // 配列の中身をループで回して取得
         // 選択された銘柄のフレーバーだけを抽出
         data.flavorCharts.map((fla) => {
@@ -234,13 +248,69 @@ export const App = () => {
             ]);
             // 1回処理したらmapをBreakしたい
           }
-          return 0;
+          // return 0;
         });
       })
       .catch((error) => {
         alert("API実行時はCORS問題を解決すること。");
         console.log("失敗しました");
       });
+
+      // axios使ってやってみたあと fetchでも正常に動いたので削除予定
+      // axios.get('/api/flavor-tags')
+      //   .then(res => {
+      //       console.log("flavor-tags:");
+      //       console.log(res.data);
+      //   }).catch((error) => {
+      //     alert("axiosでもAPI実行時はCORS問題を解決すること。");
+      //     console.log("失敗しました");
+      // });
+
+      // フレーバータグ一覧の取得
+      fetch('/api/flavor-tags')
+        .then(response => {
+            return response.json();
+        })
+        .then((data) => {
+            console.log("flavor-tags(フレーバータグ一覧):");
+            console.log(data);
+            console.log("フレーバータグ一覧取り出す");
+            console.log(data.tags);
+            console.log(data.tags[0]);
+            setFlavorTags(data.tags);
+        }).catch((error) => {
+          console.log(error);
+          alert("flavor-tagsでAPI実行時に失敗");
+          console.log("失敗しました");
+        });
+
+     if(brandsId[index]!=selectBrandId){
+      // 銘柄フレーバータグ一覧の取得
+      fetch('/api/brand-flavor-tags')
+        .then(response => {
+            return response.json();
+        })
+        .then((data) => {
+            console.log("brand-flavor-tags(銘柄フレーバータグ一覧):");
+            console.log(data);
+            // タグのリストをリセット
+            setSelectBrandFlavorTags([]);
+
+            data.flavorTags.forEach((fla) => {
+              // 銘柄が一致するものを抽出
+              if (fla.brandId === brandsId[index]) {
+                setSelectBrandFlavorTags(fla.tagIds);
+                console.log("selectBrandFlavorTags" + selectBrandFlavorTags);
+                // 1回処理したらmapをBreakしたい
+              }
+              // console.log("selectBrandFlavorTags" + selectBrandFlavorTags);
+            })
+        }).catch((error) => {
+          console.log(error);
+          alert("brand-flavor-tagsでもAPI実行時はCORS問題を解決すること。");
+          console.log("失敗しました");
+      });
+    }
   };
   return (
     <>
@@ -299,7 +369,7 @@ export const App = () => {
               {prefecture.map((pre, index) => {
                 return (
                   <Button
-                    key={pre}
+                    key={index}  // key変更
                     variant="contained"
                     disabled={prefectureSelectFlag[index]}
                     style={{ width: 100 }}
@@ -323,7 +393,7 @@ export const App = () => {
               {breweries.map((bre, index) => {
                 return (
                   <Button
-                    key={bre}
+                    key={index}  // key変更
                     variant="contained"
                     disabled={breweriesSelectFlag[index]}
                     onClick={() =>
@@ -346,7 +416,7 @@ export const App = () => {
               {brands.map((bra, index) => {
                 return (
                   <Button
-                    key={bra}
+                    key={index} // key変更
                     variant="contained"
                     disabled={brandsSelectFlag[index]}
                     onClick={() =>
@@ -371,7 +441,7 @@ export const App = () => {
           >
             <div>
               <h3>銘柄詳細</h3>
-              <BrandDetail brandDetailRadar={brandDetailRadar}></BrandDetail>
+              <BrandDetail brandDetailRadar={brandDetailRadar} selectBrandId={selectBrandId} selectBrandFlavorTags={selectBrandFlavorTags} flavorTags={flavorTags}></BrandDetail>
             </div>
           </Box>
         </Grid>
