@@ -1,11 +1,10 @@
 // @ts-nocheck
 // buildとすために暫定対策
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@material-ui/core";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import axios from 'axios'
 
 import { Header } from "./components/header";
 import { Menu } from "./components/menu";
@@ -72,6 +71,26 @@ export const App = () => {
 
   // スタブモードの状態を保持
   const [stubMode, setStubMode] = useState(true);
+
+  useEffect(()=>{
+      // フレーバータグ一覧の取得
+      // 初回レンダリングの際にapi呼び出ししてflavorTagsにセット
+      fetch('/api/flavor-tags')
+        .then(response => {
+            return response.json();
+        })
+        .then((data) => {
+            console.log("flavor-tags(フレーバータグ一覧):");
+            console.log(data);
+            console.log("フレーバータグ一覧取り出す");
+            console.log(data.tags);
+            setFlavorTags(data.tags);
+        }).catch((error) => {
+          console.log(error);
+          alert("flavor-tagsでAPI実行時に失敗");
+          console.log("失敗しました");
+        });
+  },[])
 
   // 産地選択後に銘柄を取得する
   const onClickBreweriesGet = (pre, index, setPrefectureSelectFlag) => {
@@ -172,9 +191,9 @@ export const App = () => {
           return 0;
         });
         // API実行結果をbreweriesに格納
-        setBrands(arrayName);
+        setBrands(arrayName);  // 選択した蔵元の銘柄name配列
         console.log(arrayName);
-        setBrandsId(arrayNameId);
+        setBrandsId(arrayNameId);  // 選択した蔵元の銘柄id配列
         console.log(arrayNameId);
         setbrandsSelectFlag(arrayNameSelectFlag);
       })
@@ -256,34 +275,6 @@ export const App = () => {
         console.log("失敗しました");
       });
 
-      // axios使ってやってみたあと fetchでも正常に動いたので削除予定
-      // axios.get('/api/flavor-tags')
-      //   .then(res => {
-      //       console.log("flavor-tags:");
-      //       console.log(res.data);
-      //   }).catch((error) => {
-      //     alert("axiosでもAPI実行時はCORS問題を解決すること。");
-      //     console.log("失敗しました");
-      // });
-
-      // フレーバータグ一覧の取得
-      fetch('/api/flavor-tags')
-        .then(response => {
-            return response.json();
-        })
-        .then((data) => {
-            console.log("flavor-tags(フレーバータグ一覧):");
-            console.log(data);
-            console.log("フレーバータグ一覧取り出す");
-            console.log(data.tags);
-            console.log(data.tags[0]);
-            setFlavorTags(data.tags);
-        }).catch((error) => {
-          console.log(error);
-          alert("flavor-tagsでAPI実行時に失敗");
-          console.log("失敗しました");
-        });
-
      if(brandsId[index]!=selectBrandId){
       // 銘柄フレーバータグ一覧の取得
       fetch('/api/brand-flavor-tags')
@@ -307,7 +298,7 @@ export const App = () => {
             })
         }).catch((error) => {
           console.log(error);
-          alert("brand-flavor-tagsでもAPI実行時はCORS問題を解決すること。");
+          alert("brand-flavor-tagsでerror");
           console.log("失敗しました");
       });
     }
