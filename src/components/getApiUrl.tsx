@@ -24,11 +24,14 @@ const urlList = {
       "https://4deralr2qh.execute-api.ap-northeast-1.amazonaws.com/sakeAPI/brands",
     breweries:
       "https://4deralr2qh.execute-api.ap-northeast-1.amazonaws.com/sakeAPI/breweries",
-    rankings: "TBD",
+    rankings:
+      "https://4deralr2qh.execute-api.ap-northeast-1.amazonaws.com/sakeAPI/rankings",
     flavorCharts:
       "https://4deralr2qh.execute-api.ap-northeast-1.amazonaws.com/sakeAPI/flavorcharts",
-    flavorTags: "TBD",
-    brandFlavorTags: "TBD"
+    flavorTags:
+      "https://4deralr2qh.execute-api.ap-northeast-1.amazonaws.com/sakeAPI/flavortags",
+    brandFlavorTags:
+      "https://4deralr2qh.execute-api.ap-northeast-1.amazonaws.com/sakeAPI/brandflavortags"
   },
   // 直接実行（API実行するとCORS問題発生）
   sakenowa: {
