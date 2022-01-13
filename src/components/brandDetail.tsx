@@ -8,6 +8,7 @@ import {
   PolarAngleAxis,
   Tooltip
 } from "recharts";
+import BrandDetailTags from "./brandDetailTags"
 
 export const BrandDetail = (props) => {
   return (
@@ -34,6 +35,11 @@ export const BrandDetail = (props) => {
         {/* hoverすると各パラメーターの値が表示される */}
         <Tooltip />
       </RadarChart>
+      <BrandDetailTags
+        selectBrandId={props.selectBrandId}
+        selectBrandFlavorTags={props.selectBrandFlavorTags}
+        flavorTags={props.flavorTags}
+      />
     </>
   );
 };
