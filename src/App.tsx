@@ -15,7 +15,9 @@ import { Footer } from "./components/footer";
 import {
   getApiUrlBrands,
   getApiUrlBreweries,
-  getApiUrlFlavorCharts
+  getApiUrlFlavorCharts,
+  getApiUrlFlavorTags,
+  getApiUrlBrandFlavorTags
 } from "./components/getApiUrl";
 
 export const App = () => {
@@ -72,25 +74,26 @@ export const App = () => {
   // スタブモードの状態を保持
   const [stubMode, setStubMode] = useState(true);
 
-  useEffect(()=>{
-      // フレーバータグ一覧の取得
-      // 初回レンダリングの際にapi呼び出ししてflavorTagsにセット
-      fetch('/api/flavor-tags')
-        .then(response => {
-            return response.json();
-        })
-        .then((data) => {
-            console.log("flavor-tags(フレーバータグ一覧):");
-            console.log(data);
-            console.log("フレーバータグ一覧取り出す");
-            console.log(data.tags);
-            setFlavorTags(data.tags);
-        }).catch((error) => {
-          console.log(error);
-          alert("flavor-tagsでAPI実行時に失敗");
-          console.log("失敗しました");
-        });
-  },[])
+  useEffect(() => {
+    // フレーバータグ一覧の取得
+    // 初回レンダリングの際にapi呼び出ししてflavorTagsにセット
+    fetch(getApiUrlFlavorTags(stubMode))
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log("flavor-tags(フレーバータグ一覧):");
+        console.log(data);
+        console.log("フレーバータグ一覧取り出す");
+        console.log(data.tags);
+        setFlavorTags(data.tags);
+      })
+      .catch((error) => {
+        console.log(error);
+        alert("flavor-tagsでAPI実行時に失敗");
+        console.log("失敗しました");
+      });
+  }, []);
 
   // 産地選択後に銘柄を取得する
   const onClickBreweriesGet = (pre, index, setPrefectureSelectFlag) => {
@@ -191,9 +194,9 @@ export const App = () => {
           return 0;
         });
         // API実行結果をbreweriesに格納
-        setBrands(arrayName);  // 選択した蔵元の銘柄name配列
+        setBrands(arrayName); // 選択した蔵元の銘柄name配列
         console.log(arrayName);
-        setBrandsId(arrayNameId);  // 選択した蔵元の銘柄id配列
+        setBrandsId(arrayNameId); // 選択した蔵元の銘柄id配列
         console.log(arrayNameId);
         setbrandsSelectFlag(arrayNameSelectFlag);
       })
@@ -275,32 +278,33 @@ export const App = () => {
         console.log("失敗しました");
       });
 
-     if(brandsId[index]!=selectBrandId){
+    if (brandsId[index] != selectBrandId) {
       // 銘柄フレーバータグ一覧の取得
-      fetch('/api/brand-flavor-tags')
-        .then(response => {
-            return response.json();
+      fetch(getApiUrlBrandFlavorTags(stubMode))
+        .then((response) => {
+          return response.json();
         })
         .then((data) => {
-            console.log("brand-flavor-tags(銘柄フレーバータグ一覧):");
-            console.log(data);
-            // タグのリストをリセット
-            setSelectBrandFlavorTags([]);
+          console.log("brand-flavor-tags(銘柄フレーバータグ一覧):");
+          console.log(data);
+          // タグのリストをリセット
+          setSelectBrandFlavorTags([]);
 
-            data.flavorTags.forEach((fla) => {
-              // 銘柄が一致するものを抽出
-              if (fla.brandId === brandsId[index]) {
-                setSelectBrandFlavorTags(fla.tagIds);
-                console.log("selectBrandFlavorTags" + selectBrandFlavorTags);
-                // 1回処理したらmapをBreakしたい
-              }
-              // console.log("selectBrandFlavorTags" + selectBrandFlavorTags);
-            })
-        }).catch((error) => {
+          data.flavorTags.forEach((fla) => {
+            // 銘柄が一致するものを抽出
+            if (fla.brandId === brandsId[index]) {
+              setSelectBrandFlavorTags(fla.tagIds);
+              console.log("selectBrandFlavorTags" + selectBrandFlavorTags);
+              // 1回処理したらmapをBreakしたい
+            }
+            // console.log("selectBrandFlavorTags" + selectBrandFlavorTags);
+          });
+        })
+        .catch((error) => {
           console.log(error);
           alert("brand-flavor-tagsでerror");
           console.log("失敗しました");
-      });
+        });
     }
   };
   return (
@@ -360,7 +364,7 @@ export const App = () => {
               {prefecture.map((pre, index) => {
                 return (
                   <Button
-                    key={index}  // key変更
+                    key={index} // key変更
                     variant="contained"
                     disabled={prefectureSelectFlag[index]}
                     style={{ width: 100 }}
@@ -384,7 +388,7 @@ export const App = () => {
               {breweries.map((bre, index) => {
                 return (
                   <Button
-                    key={index}  // key変更
+                    key={index} // key変更
                     variant="contained"
                     disabled={breweriesSelectFlag[index]}
                     onClick={() =>
@@ -432,7 +436,12 @@ export const App = () => {
           >
             <div>
               <h3>銘柄詳細</h3>
-              <BrandDetail brandDetailRadar={brandDetailRadar} selectBrandId={selectBrandId} selectBrandFlavorTags={selectBrandFlavorTags} flavorTags={flavorTags}></BrandDetail>
+              <BrandDetail
+                brandDetailRadar={brandDetailRadar}
+                selectBrandId={selectBrandId}
+                selectBrandFlavorTags={selectBrandFlavorTags}
+                flavorTags={flavorTags}
+              ></BrandDetail>
             </div>
           </Box>
         </Grid>
