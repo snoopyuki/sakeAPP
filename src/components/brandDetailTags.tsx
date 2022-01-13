@@ -11,13 +11,7 @@ import Paper from "@mui/material/Paper";
 // タグ表示コンポーネント
 export const BrandDetailTags = (props) => {
   const {selectBrandId, selectBrandFlavorTags, flavorTags} = props;
-  const [chipData, setChipData] = React.useState([
-      { key: 0, label: 'Angular' },
-      { key: 1, label: 'jQuery' },
-      { key: 2, label: 'Polymer' },
-      { key: 3, label: 'React' },
-      { key: 4, label: 'Vue.js' },
-    ]);
+
   return (
     <>
     <br/>
