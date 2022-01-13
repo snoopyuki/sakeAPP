@@ -6,6 +6,7 @@ import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
 
 // タグ表示コンポーネント
 export const BrandDetailTags = (props) => {
@@ -15,18 +16,28 @@ export const BrandDetailTags = (props) => {
     <>
     <br/>
     <h3>特徴</h3>
-    <Stack direction="row" spacing={1}>
-      {
-          selectBrandFlavorTags.map((brandTagId, index) => {
-              console.log("selectBrandFlavorTagsから取り出した" + brandTagId);
-              const tagObj = flavorTags.find((flavorTag) => flavorTag.id === brandTagId);
-              console.log("tagName:" + tagObj.tag);
-              return(
-                  <Chip key={index} label={tagObj.tag} color="primary" />
-              )
-          })
-      }
-    </Stack>
+    <Box
+      sx={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        padding: 0.5,
+      }}
+    >
+    {
+      selectBrandFlavorTags.map((brandTagId, index) => {
+        const tagObj = flavorTags.find((flavorTag) => flavorTag.id === brandTagId);
+        console.log("tagName:" + tagObj.tag);
+        return(
+          <Chip
+            key={index}
+            label={tagObj.tag}
+            color="primary"
+            sx={{margin: 0.5}}
+          />
+        )
+      })
+    }
+    </Box>
     </>
   );
 };
