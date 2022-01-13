@@ -24,11 +24,14 @@ const urlList = {
       "https://4deralr2qh.execute-api.ap-northeast-1.amazonaws.com/sakeAPI/brands",
     breweries:
       "https://4deralr2qh.execute-api.ap-northeast-1.amazonaws.com/sakeAPI/breweries",
-    rankings: "TBD",
+    rankings:
+      "https://4deralr2qh.execute-api.ap-northeast-1.amazonaws.com/sakeAPI/rankings",
     flavorCharts:
       "https://4deralr2qh.execute-api.ap-northeast-1.amazonaws.com/sakeAPI/flavorcharts",
-    flavorTags: "TBD",
-    brandFlavorTags: "TBD"
+    flavorTags:
+      "https://4deralr2qh.execute-api.ap-northeast-1.amazonaws.com/sakeAPI/flavortags",
+    brandFlavorTags:
+      "https://4deralr2qh.execute-api.ap-northeast-1.amazonaws.com/sakeAPI/brandflavortags"
   },
   // 直接実行（API実行するとCORS問題発生）
   sakenowa: {
@@ -66,6 +69,20 @@ export const getApiUrlFlavorCharts = (stubModeFlag: Boolean): String => {
   if (stubModeFlag) return urlList.stub.flavorCharts;
   // CORS問題を解決するだけのURL（GW経由でHeader付与）
   else return urlList.normal.flavorCharts;
+};
+// フレーバータグ一覧のAPI実行先をスタブモードに応じて返却
+export const getApiUrlFlavorTags = (stubModeFlag: Boolean): String => {
+  // スタブモードのURL
+  if (stubModeFlag) return urlList.stub.flavorTags;
+  // CORS問題を解決するだけのURL（GW経由でHeader付与）
+  else return urlList.normal.flavorTags;
+};
+// 銘柄毎のフレーバータグ一覧取得API実行先をスタブモードに応じて返却
+export const getApiUrlBrandFlavorTags = (stubModeFlag: Boolean): String => {
+  // スタブモードのURL
+  if (stubModeFlag) return urlList.stub.brandFlavorTags;
+  // CORS問題を解決するだけのURL（GW経由でHeader付与）
+  else return urlList.normal.brandFlavorTags;
 };
 
 export const getApiUrlSakenowaAreas = (): String => {
