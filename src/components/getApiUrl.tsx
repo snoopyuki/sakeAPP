@@ -38,7 +38,7 @@ const urlList = {
     areas: "https://muro.sakenowa.com/sakenowa-data/api/areas",
     brands: "https://muro.sakenowa.com/sakenowa-data/api/brands",
     breweries: "https://muro.sakenowa.com/sakenowa-data/api/breweries",
-    flavorCharts: "https://muro.sakenowa.com/sakenowa-data/api/flavor-charts"
+    flavorCharts: "https://muro.sakenowa.com/sakenowa-data/api/flavor-charts",
   }
 };
 

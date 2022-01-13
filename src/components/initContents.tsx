@@ -67,7 +67,7 @@ export const InitContents = () => {
           {backLog.map((bl, index) => {
             return (
               <ListItemText
-                kye={bl.p}
+                key={bl.p}
                 primary={`${index}：${bl.p}`}
                 secondary={bl.s}
               />
