@@ -12,9 +12,9 @@ const urlList = {
     flavorCharts:
       "https://0yxmp6pif1.execute-api.ap-northeast-1.amazonaws.com/sakenowaAPI/flavor-charts",
     flavorTags:
-      "https://0yxmp6pif1.execute-api.ap-northeast-1.amazonaws.com/sakenowaAPI/brand-flavor-tags",
+      "https://0yxmp6pif1.execute-api.ap-northeast-1.amazonaws.com/sakenowaAPI/flavor-tags",
     brandFlavorTags:
-      "https://0yxmp6pif1.execute-api.ap-northeast-1.amazonaws.com/sakenowaAPI/flavor-tags"
+      "https://0yxmp6pif1.execute-api.ap-northeast-1.amazonaws.com/sakenowaAPI/brand-flavor-tags"
   },
   // スタブモードの時に呼び出すURL
   stub: {
@@ -38,7 +38,7 @@ const urlList = {
     areas: "https://muro.sakenowa.com/sakenowa-data/api/areas",
     brands: "https://muro.sakenowa.com/sakenowa-data/api/brands",
     breweries: "https://muro.sakenowa.com/sakenowa-data/api/breweries",
-    flavorCharts: "https://muro.sakenowa.com/sakenowa-data/api/flavor-charts",
+    flavorCharts: "https://muro.sakenowa.com/sakenowa-data/api/flavor-charts"
   }
 };
 
