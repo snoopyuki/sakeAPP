@@ -8,60 +8,17 @@ import Box from "@mui/material/Box";
 import { DrawerMenu } from "./drawerMenu";
 import { getApiUrlAreas } from "./getApiUrl";
 
-// 産地取得API実行を1回に制御するフラグ
-let ApiAreasFlag = false;
-
 export const Menu = (props) => {
+    const {setNowStep,setStepBarShowFlag,setinitShowFlag,setAreasShowFlag
+            ,stubMode,setStubMode} = props
   // 産地取得のAPI実行
-  const onClickDoAPI = () => {
+  const onClickArea = () => {
     // ステップバーの表示を更新
-    props.setNowStep(0);
+    setNowStep(0);
     // 初期表示時コンテンツエリアの表示フラグをリセット
-    props.setStepBarShowFlag(true);
-    props.setinitShowFlag(false);
-    props.setAreasShowFlag(true);
-    props.setBreweriesShowFlag(false);
-    props.setBrandsShowFlag(false);
-    props.setBrandDetailShowFlag(false);
-    // APIが未実行なら
-    if (!ApiAreasFlag) {
-      ApiAreasFlag = true;
-      fetch(getApiUrlAreas(props.stubMode), { mode: "cors" })
-        .then((response) => {
-          return response.json();
-          // APIレスポンスはresponse.areas[n]{id:1, name:北海道}
-        })
-        .then((data) => {
-          // 配列の中身をループで回して取得
-          const arrayPre = [];
-          const arrayPreId = [];
-          const arrayPrefectureSelectFlag = [];
-          data.areas.map((areas) => {
-            arrayPre.push(areas.name);
-            arrayPreId.push(areas.id);
-            arrayPrefectureSelectFlag.push(false);
-            return 0;
-          });
-          // API実行結果をpropsに格納
-          props.setPrefecture(arrayPre);
-          props.setPrefectureId(arrayPreId);
-          props.setPrefectureSelectFlag(arrayPrefectureSelectFlag);
-
-          // 中身の確認;
-          // data.areas.forEach((elm) => {
-          //   Object.keys(elm).forEach((key) => {
-          //     console.log(`key: ${key} value: ${elm[key]}`);
-          //   });
-          // });
-        })
-        .catch((error) => {
-          alert(
-            'API実行時はCORS問題を解決すること。 --disable-web-security --user-data-dir="ディレクトリ"'
-          );
-          console.log("失敗しました");
-          ApiAreasFlag = false; // API未実行状態に
-        });
-    }
+    setStepBarShowFlag(true);
+    setinitShowFlag(false);
+    setAreasShowFlag(true);
   };
 
   return (
@@ -72,9 +29,7 @@ export const Menu = (props) => {
           style={{ width: "60%" }}
           variant="contained"
           color="primary"
-          onClick={() => {
-            onClickDoAPI();
-          }}
+          onClick={onClickArea}
         >
           産地から選ぶ
         </Button>
@@ -95,7 +50,7 @@ export const Menu = (props) => {
           ランキング
         </Button>
       </Box>
-      <DrawerMenu stubMode={props.stubMode} setStubMode={props.setStubMode} />
+      <DrawerMenu stubMode={stubMode} setStubMode={setStubMode} />
     </>
   );
 };
