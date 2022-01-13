@@ -12,7 +12,9 @@ import {
   getApiUrlAreas,
   getApiUrlBrands,
   getApiUrlBreweries,
-  getApiUrlFlavorCharts
+  getApiUrlFlavorCharts,
+  getApiUrlFlavorTags,
+  getApiUrlBrandFlavorTags
 } from "./getApiUrl";
 
 export const SelectArea = (props) => {
@@ -60,7 +62,7 @@ export const SelectArea = (props) => {
 
   useEffect(()=>{
       // 都道府県一覧の取得
-      fetch(getApiUrlAreas(props.stubMode), { mode: "cors" })
+      fetch(getApiUrlAreas(stubMode), { mode: "cors" })
         .then((response) => {
           return response.json();
           // APIレスポンスはresponse.areas[n]{id:1, name:北海道}
@@ -92,7 +94,7 @@ export const SelectArea = (props) => {
 
       // フレーバータグ一覧の取得
       // 初回レンダリングの際にapi呼び出ししてflavorTagsにセット
-      fetch('/api/flavor-tags')
+      fetch(getApiUrlFlavorTags(stubMode), { mode: "cors" })
         .then(response => {
             return response.json();
         })
@@ -283,7 +285,7 @@ export const SelectArea = (props) => {
 
      if(brandsId[index]!=selectBrandId){
       // 銘柄フレーバータグ一覧の取得
-      fetch('/api/brand-flavor-tags')
+      fetch(getApiUrlBrandFlavorTags(stubMode), { mode: "cors" })
         .then(response => {
             return response.json();
         })
