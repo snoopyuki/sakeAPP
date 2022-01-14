@@ -30,8 +30,8 @@ const backLog = [
     s: "props型指定など適当なコードを直す。"
   },
   {
-    p: "バックログのリストを見た目キレイに",
-    s: "MUIのListItem系propsを活用する。"
+    p: "バックログ移行",
+    s: "GitHubのissueを活用する。"
   },
   {
     p: "ファビコン設定",

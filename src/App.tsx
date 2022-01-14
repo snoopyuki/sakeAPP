@@ -94,20 +94,23 @@ export const App = () => {
               <InitContents />
             </div>
           </Box>
-          {areasShowFlag && <SelectArea
-          setNowStep={setNowStep}
-          setStepBarShowFlag={setStepBarShowFlag}
-          areasShowFlag={areasShowFlag}
-          setAreasShowFlag={setAreasShowFlag}
-          stubMode={stubMode}
-          setStubMode={setStubMode}/>}
-        {/* フッター */}
+          {areasShowFlag && (
+            <SelectArea
+              setNowStep={setNowStep}
+              setStepBarShowFlag={setStepBarShowFlag}
+              areasShowFlag={areasShowFlag}
+              setAreasShowFlag={setAreasShowFlag}
+              stubMode={stubMode}
+              setStubMode={setStubMode}
+            />
+          )}
+          {/* フッター */}
+        </Grid>
         <Grid item xs={12}>
           <Box component="span" m={5}>
             <Footer />
           </Box>
         </Grid>
-      </Grid>
       </Grid>
     </>
   );
