@@ -24,12 +24,13 @@ const menuStyle = {
 };
 
 export const DrawerMenu = (props) => {
-  // ドロワーメニューの開閉状態
-  const [open, setopen] = useState(false);
+  const { stubMode, setStubMode, drawerOpen, setDrawerOpen } = props;
 
-  const toggleOpen = () => {
-    setopen(!open);
+  // ドロワーメニューの開閉状態変更
+  const drawerToggleOpen = () => {
+    setDrawerOpen(!drawerOpen);
   };
+
   const onClickNextPage = () => {
     // 特に処理はない
     // aタグリンクよりクリックイベント拾う方が良い？
@@ -52,15 +53,24 @@ export const DrawerMenu = (props) => {
 
   // スタブモードの切替
   const onChangeStubMode = (event) => {
-    props.setStubMode(event.target.checked);
+    setStubMode(event.target.checked);
     // コンテンツエリアの初期化処理を入れて方がいいかな
   };
   return (
     <Box m={1}>
-      <Button variant="outlined" color="secondary" onClick={toggleOpen}>
+      {/* メニューをヘッダーから開閉可能にしたのでコメントアウト */}
+      {/* <Button
+        variant="outlined"
+        color="secondary"
+        onClick={() => drawerToggleOpen()}
+      >
         開発者メニュー＞＞
-      </Button>
-      <Drawer anchor="left" open={open} onClose={toggleOpen}>
+      </Button> */}
+      <Drawer
+        anchor="left"
+        open={drawerOpen}
+        onClose={() => drawerToggleOpen()}
+      >
         <h4>開発者メニュー</h4>
         <Box m={1} style={menuStyle}>
           <div>
@@ -149,7 +159,7 @@ export const DrawerMenu = (props) => {
           <FormGroup>
             <FormControlLabel
               control={
-                <Switch checked={props.stubMode} onChange={onChangeStubMode} />
+                <Switch checked={stubMode} onChange={onChangeStubMode} />
               }
               label="スタブモード"
               labelPlacement="start"

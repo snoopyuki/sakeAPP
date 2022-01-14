@@ -9,8 +9,16 @@ import { DrawerMenu } from "./drawerMenu";
 import { getApiUrlAreas } from "./getApiUrl";
 
 export const Menu = (props) => {
-    const {setNowStep,setStepBarShowFlag,setinitShowFlag,setAreasShowFlag
-            ,stubMode,setStubMode} = props
+  const {
+    setNowStep,
+    setStepBarShowFlag,
+    setinitShowFlag,
+    setAreasShowFlag,
+    stubMode,
+    setStubMode,
+    drawerOpen,
+    setDrawerOpen
+  } = props;
   // 産地取得のAPI実行
   const onClickArea = () => {
     // ステップバーの表示を更新
@@ -50,7 +58,12 @@ export const Menu = (props) => {
           ランキング
         </Button>
       </Box>
-      <DrawerMenu stubMode={stubMode} setStubMode={setStubMode} />
+      <DrawerMenu
+        stubMode={stubMode}
+        setStubMode={setStubMode}
+        drawerOpen={drawerOpen}
+        setDrawerOpen={setDrawerOpen}
+      />
     </>
   );
 };
