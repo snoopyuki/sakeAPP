@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Drawer, FormGroup, FormControlLabel, Switch } from '@material-ui/core';
 import Box from '@mui/material/Box';
 import {
@@ -17,16 +17,18 @@ const menuStyle = {
 type PropsType = {
   stubMode: boolean;
   setStubMode: (param: boolean) => void;
+  drawerOpen: boolean;
+  setDrawerOpen: (pram: boolean) => void;
 };
 
 export const DrawerMenu = (props: PropsType) => {
-  const { stubMode, setStubMode } = props;
-  // ドロワーメニューの開閉状態
-  const [open, setopen] = useState(false);
+  const { stubMode, setStubMode, drawerOpen, setDrawerOpen } = props;
 
-  const toggleOpen = () => {
-    setopen(!open);
+  // ドロワーメニューの開閉状態変更
+  const drawerToggleOpen = () => {
+    setDrawerOpen(!drawerOpen);
   };
+
   const onClickNextPage = () => {
     // 特に処理はない
     // aタグリンクよりクリックイベント拾う方が良い？
@@ -55,10 +57,15 @@ export const DrawerMenu = (props: PropsType) => {
   };
   return (
     <Box m={1}>
-      <Button variant="outlined" color="secondary" onClick={toggleOpen}>
-        開発者メニュー＞＞
-      </Button>
-      <Drawer anchor="left" open={open} onClose={toggleOpen}>
+      {/* メニューをヘッダーから開閉可能にしたのでコメントアウト */}
+      {/* <Button
+      variant="outlined"
+      color="secondary"
+      onClick={() => drawerToggleOpen()}
+    >
+      開発者メニュー＞＞
+    </Button> */}
+      <Drawer anchor="left" open={drawerOpen} onClose={() => drawerToggleOpen()}>
         <h4>開発者メニュー</h4>
         <Box m={1} style={menuStyle}>
           <div>

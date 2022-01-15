@@ -32,13 +32,16 @@ export const App = () => {
   // スタブモードの状態を保持
   const [stubMode, setStubMode] = useState(true);
 
+  // ドロワーメニューの開閉状態
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
   return (
     <>
       {/* ヘッダー */}
       <Grid container>
         <Grid item xs={12}>
           <Box component="span" m={5}>
-            <Header>さけのわでりあくと</Header>
+            <Header setDrawerOpen={setDrawerOpen}>さけのわでりあくと</Header>
           </Box>
         </Grid>
         {/* ドロワーメニューとAPI実行 */}
@@ -52,6 +55,8 @@ export const App = () => {
               setRankingShowFlag={setRankingShowFlag}
               stubMode={stubMode}
               setStubMode={setStubMode}
+              drawerOpen={drawerOpen}
+              setDrawerOpen={setDrawerOpen}
             />
           </Box>
         </Grid>

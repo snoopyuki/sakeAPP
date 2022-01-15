@@ -12,6 +12,8 @@ type PropsType = {
   setRankingShowFlag: (param: boolean) => void;
   stubMode: boolean;
   setStubMode: (param: boolean) => void;
+  drawerOpen: boolean;
+  setDrawerOpen: (param: boolean) => void;
 };
 
 export const Menu = (props: PropsType) => {
@@ -23,6 +25,8 @@ export const Menu = (props: PropsType) => {
     setRankingShowFlag,
     stubMode,
     setStubMode,
+    drawerOpen,
+    setDrawerOpen,
   } = props;
 
   const onClickArea = () => {
@@ -60,7 +64,12 @@ export const Menu = (props: PropsType) => {
           ランキング
         </Button>
       </Box>
-      <DrawerMenu stubMode={stubMode} setStubMode={setStubMode} />
+      <DrawerMenu
+        stubMode={stubMode}
+        setStubMode={setStubMode}
+        drawerOpen={drawerOpen}
+        setDrawerOpen={setDrawerOpen}
+      />
     </>
   );
 };
