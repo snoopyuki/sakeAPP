@@ -1,5 +1,3 @@
-// @ts-nocheck
-// buildとすために暫定対策
 
 import React, { useState, useEffect } from 'react';
 import { Button } from '@material-ui/core';
@@ -7,7 +5,6 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 
 import { BrandDetail } from './brandDetail';
-import { Footer } from './footer';
 import {
   getApiUrlAreas,
   getApiUrlBrands,
@@ -17,40 +14,45 @@ import {
   getApiUrlBrandFlavorTags,
 } from './getApiUrl';
 
-export const SelectArea = (props) => {
-  const { setNowStep, setStepBarShowFlag, areasShowFlag, setAreasShowFlag, stubMode, setStubMode } =
+type PropsType = {
+  setNowStep: (param: number) => void,
+  stubMode: boolean,
+}
+
+export const SelectArea = (props: PropsType) => {
+  const { setNowStep, stubMode } =
     props;
 
   // APIで取得してきた都道府県を挿入
-  const [prefecture, setPrefecture] = useState([]);
+  const [prefecture, setPrefecture] = useState<string[]>([]);
   // APIで取得した都道府県のID。上記とまとめてOBJ化したい。
   // 配列をpropsで渡しても元値を上書きできないのでuseState使う
-  const [prefectureId, setPrefectureId] = useState([]);
+  const [prefectureId, setPrefectureId] = useState<number[]>([]);
 
   // 都道府県の選択フラグ
-  const [prefectureSelectFlag, setPrefectureSelectFlag] = useState([]);
+  const [prefectureSelectFlag, setPrefectureSelectFlag] = useState<boolean[]>([]);
 
   // 蔵元一覧
-  const [breweries, setBreweries] = useState([]);
+  const [breweries, setBreweries] = useState<string[]>([]);
   // 蔵元一覧のID。上記とまとめてOBJ化したい
-  const [breweriesId, setBreweriesId] = useState([]);
+  const [breweriesId, setBreweriesId] = useState<number[]>([]);
   // 蔵元の選択フラグ
-  const [breweriesSelectFlag, setBreweriesSelectFlag] = useState([]);
+  const [breweriesSelectFlag, setBreweriesSelectFlag] = useState<boolean[]>([]);
 
   // 銘柄一覧
-  const [brands, setBrands] = useState([]);
+  const [brands, setBrands] = useState<string[]>([]);
   // 銘柄一覧のID。上記とまとめてOBJ化したい
-  const [brandsId, setBrandsId] = useState([]);
+  const [brandsId, setBrandsId] = useState<number[]>([]);
   // 銘柄の選択フラグ
-  const [brandsSelectFlag, setbrandsSelectFlag] = useState([]);
+  const [brandsSelectFlag, setbrandsSelectFlag] = useState<boolean[]>([]);
   // 選択銘柄のフレーバーデータ
-  const [brandDetailRadar, setBrandDetailRadar] = useState([]);
+  const [brandDetailRadar, setBrandDetailRadar] = useState<{[key:string]: string | number}[]>([]);
   // 選択した銘柄のbrandId
   const [selectBrandId, setSelectBrandId] = useState(0);
   // 選択した銘柄のフレーバータグ配列
-  const [selectBrandFlavorTags, setSelectBrandFlavorTags] = useState([]);
+  const [selectBrandFlavorTags, setSelectBrandFlavorTags] = useState<number[]>([]);
   // apiから取得したフレーバータグ一覧  {"id": number, "tag": string}
-  const [flavorTags, setFlavorTags] = useState([]);
+  const [flavorTags, setFlavorTags] = useState<{[key:string]: string | number}[]>([]);
 
   // 銘柄詳細エリアの制御フラグ
   const [brandDetailShowFlag, setBrandDetailShowFlag] = useState(false);
@@ -68,10 +70,10 @@ export const SelectArea = (props) => {
       })
       .then((data) => {
         // 配列の中身をループで回して取得
-        const arrayPre = [];
-        const arrayPreId = [];
-        const arrayPrefectureSelectFlag = [];
-        data.areas.map((areas) => {
+        const arrayPre: Array<string> = [];
+        const arrayPreId: Array<number> = [];
+        const arrayPrefectureSelectFlag: Array<boolean> = [];
+        data.areas.map((areas: {[key: string]: any}) => {
           arrayPre.push(areas.name);
           arrayPreId.push(areas.id);
           arrayPrefectureSelectFlag.push(false);
@@ -85,9 +87,10 @@ export const SelectArea = (props) => {
         // console.log(arrayPre);
       })
       .catch((error) => {
-        alert(
-          'API実行時はCORS問題を解決すること。 --disable-web-security --user-data-dir="ディレクトリ"',
-        );
+        console.log(error);
+        // alert(
+        //   'API実行時はCORS問題を解決すること。 --disable-web-security --user-data-dir="ディレクトリ"',
+        // );
         console.log('失敗しました');
       });
 
@@ -112,14 +115,13 @@ export const SelectArea = (props) => {
   }, []);
 
   // 産地選択後に銘柄を取得する
-  const onClickBreweriesGet = (pre, index, setPrefectureSelectFlag) => {
+  const onClickBreweriesGet = (index: number) => {
     // prefecture[index]（押下された産地）に対応するprefectureId（API戻り値のID）を取得する方法
     // console.log(prefectureId[index]);
 
     // ステップバーの表示を更新
     setNowStep(1);
     // コンテンツエリアの表示制御をリセット
-    setStepBarShowFlag(true);
     setBreweriesShowFlag(true);
     setBrandsShowFlag(false);
     setBrandDetailShowFlag(false);
@@ -143,10 +145,10 @@ export const SelectArea = (props) => {
         // 一度OBJをJSON形式に戻して再代入するとスムーズ。
         // 配列の中身をループで回して取得
         // 選択された産地の蔵元だけを抽出
-        const arrayName = [];
-        const arrayNameId = [];
-        const arrayNameSelectFlag = [];
-        data.breweries.map((bre) => {
+        const arrayName: Array<string> = [];
+        const arrayNameId: Array<number> = [];
+        const arrayNameSelectFlag: Array<boolean> = [];
+        data.breweries.map((bre: {[key:string]: any}) => {
           // 地域が一致かつ蔵元名が空以外を抽出
           if (bre.areaId === prefectureId[index] && bre.name !== '') {
             arrayName.push(bre.name);
@@ -161,12 +163,13 @@ export const SelectArea = (props) => {
         setBreweriesSelectFlag(arrayNameSelectFlag);
       })
       .catch((error) => {
-        alert('API実行時はCORS問題を解決すること。');
+        console.log(error);
+        // alert('API実行時はCORS問題を解決すること。');
         console.log('失敗しました');
       });
   };
   // 銘柄一覧を取得
-  const onClickBrandsGet = (bre, index, setBrandsShowFlag, setBrands) => {
+  const onClickBrandsGet = (index: number) => {
     // ステップバーの表示を更新
     setNowStep(2);
     // コンテンツエリアの表示制御をリセット
@@ -191,10 +194,10 @@ export const SelectArea = (props) => {
         // 一度OBJをJSON形式に戻して再代入するとスムーズ。
         // 配列の中身をループで回して取得
         // 選択された産地の蔵元だけを抽出
-        const arrayName = [];
-        const arrayNameId = [];
-        const arrayNameSelectFlag = [];
-        data.brands.map((bra) => {
+        const arrayName: Array<string> = [];
+        const arrayNameId: Array<number> = [];
+        const arrayNameSelectFlag: Array<boolean> = [];
+        data.brands.map((bra: {[key:string]: any}) => {
           // 蔵元が一致かつ銘柄が空以外を抽出
           if (bra.breweryId === breweriesId[index] && bra.name !== '') {
             arrayName.push(bra.name);
@@ -211,13 +214,14 @@ export const SelectArea = (props) => {
         setbrandsSelectFlag(arrayNameSelectFlag);
       })
       .catch((error) => {
-        alert('API実行時はCORS問題を解決すること。');
+        console.log(error);
+        // alert('API実行時はCORS問題を解決すること。');
         console.log('失敗しました');
       });
   };
 
   // 銘柄フレーバー取得
-  const onClickflavorGet = (bra, index, setBrandDetailShowFlag, setBrandDetailRadar) => {
+  const onClickflavorGet = (index: number) => {
     // ステップバーの表示を更新
     setNowStep(3);
     // コンテンツエリアの表示制御をリセット
@@ -256,7 +260,7 @@ export const SelectArea = (props) => {
 
         // 配列の中身をループで回して取得
         // 選択された銘柄のフレーバーだけを抽出
-        data.flavorCharts.map((fla) => {
+        data.flavorCharts.map((fla: {[key:string]: any}) => {
           // 銘柄が一致するものを抽出
           if (fla.brandId === brandsId[index]) {
             setBrandDetailRadar([
@@ -274,7 +278,8 @@ export const SelectArea = (props) => {
         });
       })
       .catch((error) => {
-        alert('API実行時はCORS問題を解決すること。');
+        console.log(error);
+        // alert('API実行時はCORS問題を解決すること。');
         console.log('失敗しました');
       });
 
@@ -290,14 +295,13 @@ export const SelectArea = (props) => {
           // タグのリストをリセット
           setSelectBrandFlavorTags([]);
 
-          data.flavorTags.forEach((fla) => {
+          data.flavorTags.forEach((fla: {[key:string]: any}) => {
             // 銘柄が一致するものを抽出
             if (fla.brandId === brandsId[index]) {
               setSelectBrandFlavorTags(fla.tagIds);
               console.log('selectBrandFlavorTags' + selectBrandFlavorTags);
               // 1回処理したらmapをBreakしたい
             }
-            // console.log("selectBrandFlavorTags" + selectBrandFlavorTags);
           });
         })
         .catch((error) => {
@@ -311,7 +315,7 @@ export const SelectArea = (props) => {
     <>
       <Grid item xs={8}>
         {/* コンテンツ配置 */}
-        <Box component="span" m={1} style={{ display: areasShowFlag ? '' : 'none' }}>
+        <Box component="span" m={1}>
           <div>
             <h3>都道府県から探す</h3>
             {prefecture.map((pre, index) => {
@@ -321,7 +325,7 @@ export const SelectArea = (props) => {
                   variant="contained"
                   disabled={prefectureSelectFlag[index]}
                   style={{ width: 100 }}
-                  onClick={() => onClickBreweriesGet(pre, index, setPrefectureSelectFlag)}
+                  onClick={() => onClickBreweriesGet(index)}
                 >
                   {pre}
                 </Button>
@@ -338,7 +342,7 @@ export const SelectArea = (props) => {
                   key={index} // key変更
                   variant="contained"
                   disabled={breweriesSelectFlag[index]}
-                  onClick={() => onClickBrandsGet(bre, index, setBrandsShowFlag, setBrands)}
+                  onClick={() => onClickBrandsGet(index)}
                 >
                   {bre}
                 </Button>
@@ -356,7 +360,7 @@ export const SelectArea = (props) => {
                   variant="contained"
                   disabled={brandsSelectFlag[index]}
                   onClick={() =>
-                    onClickflavorGet(bra, index, setBrandDetailShowFlag, setBrandDetailRadar)
+                    onClickflavorGet(index)
                   }
                 >
                   {bra}
@@ -370,7 +374,6 @@ export const SelectArea = (props) => {
             <h3>銘柄詳細</h3>
             <BrandDetail
               brandDetailRadar={brandDetailRadar}
-              selectBrandId={selectBrandId}
               selectBrandFlavorTags={selectBrandFlavorTags}
               flavorTags={flavorTags}
             ></BrandDetail>

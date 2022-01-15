@@ -1,8 +1,5 @@
-// @ts-nocheck
-// buildとすために暫定対策
 
-import React, { useState, useEffect } from "react";
-import { Button } from "@material-ui/core";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 
@@ -10,7 +7,6 @@ import { Header } from "./components/header";
 import { Menu } from "./components/menu";
 import { StepBar } from "./components/stepBar";
 import { InitContents } from "./components/initContents";
-import { BrandDetail } from "./components/brandDetail";
 import { Footer } from "./components/footer";
 import { SelectArea } from "./components/SelectArea";
 
@@ -72,16 +68,7 @@ export const App = () => {
               <InitContents />
             </div>
           </Box>
-          {areasShowFlag && (
-            <SelectArea
-              setNowStep={setNowStep}
-              setStepBarShowFlag={setStepBarShowFlag}
-              areasShowFlag={areasShowFlag}
-              setAreasShowFlag={setAreasShowFlag}
-              stubMode={stubMode}
-              setStubMode={setStubMode}
-            />
-          )}
+          {areasShowFlag && (<SelectArea setNowStep={setNowStep} stubMode={stubMode} />)}
           {/* フッター */}
           <Grid item xs={12}>
             <Box component="span" m={5}>

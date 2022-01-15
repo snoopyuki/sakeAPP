@@ -39,6 +39,7 @@ export const DrawerMenu = (props: PropsType) => {
         // 処理なし
       })*/
       .catch((error) => {
+        console.log(error);
         alert('API実行時はCORS問題を解決すること。');
         console.log('API実行に失敗しました');
       });

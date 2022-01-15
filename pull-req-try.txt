@@ -1,3 +1,4 @@
 Forkする
 自分のリポジトリにpull-req-try.txtを作成
 Pull requestする
+// @ts-nocheck

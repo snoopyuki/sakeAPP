@@ -1,10 +1,15 @@
-// @ts-nocheck
-// buildとすために暫定対策
+
 import React from "react";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, Tooltip } from 'recharts';
 import BrandDetailTags from './brandDetailTags';
 
-export const BrandDetail = (props) => {
+type PropsType = {
+  brandDetailRadar: { [key:string]: string | number }[],
+  selectBrandFlavorTags: number[],
+  flavorTags: { [key:string]: string | number }[],
+}
+
+export const BrandDetail = (props: PropsType) => {
   const {brandDetailRadar,selectBrandFlavorTags,flavorTags} = props
   return (
     <>
