@@ -1,16 +1,15 @@
+import React, { useState } from 'react';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 
-import React, { useState } from "react";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-
-import { Header } from "./components/header";
-import { Menu } from "./components/menu";
-import { StepBar } from "./components/stepBar";
-import { InitContents } from "./components/initContents";
-import { Footer } from "./components/footer";
-import { SelectArea } from "./components/SelectArea";
-import { RankingArea } from "./components/RankingArea";
-import { SelectFlavor } from "./components/SelectFlavor";
+import { Header } from './components/header';
+import { Menu } from './components/menu';
+import { StepBar } from './components/stepBar';
+import { InitContents } from './components/initContents';
+import { Footer } from './components/footer';
+import { SelectArea } from './components/SelectArea';
+import { RankingArea } from './components/RankingArea';
+import { SelectFlavor } from './components/SelectFlavor';
 
 export const App: React.FC = () => {
   // グローバスステートの管理方法どうするか決める
@@ -64,32 +63,24 @@ export const App: React.FC = () => {
         </Grid>
         {/* ステップバー */}
         <Grid item xs={8}>
-          <Box
-            component="span"
-            m={1}
-            style={{ display: stepBarShowFlag ? "" : "none" }}
-          >
+          <Box component="span" m={1} style={{ display: stepBarShowFlag ? '' : 'none' }}>
             <StepBar nowStep={nowStep} />
           </Box>
           {/* コンテンツ配置 */}
-          <Box
-            component="span"
-            m={1}
-            style={{ display: initShowFlag ? "" : "none" }}
-          >
+          <Box component="span" m={1} style={{ display: initShowFlag ? '' : 'none' }}>
             <div>
               <InitContents />
             </div>
           </Box>
-          {areasShowFlag && (<SelectArea setNowStep={setNowStep} stubMode={stubMode} />)}
-          {selectFlavorShowFlag && (<SelectFlavor setNowStep={setNowStep} stubMode={stubMode} />)}
-          {rankingShowFlag && (<RankingArea stubMode={stubMode} />)}
+          {areasShowFlag && <SelectArea setNowStep={setNowStep} stubMode={stubMode} />}
+          {selectFlavorShowFlag && <SelectFlavor setNowStep={setNowStep} stubMode={stubMode} />}
+          {rankingShowFlag && <RankingArea stubMode={stubMode} />}
           {/* フッター */}
-          <Grid item xs={12}>
-            <Box component="span" m={5}>
-              <Footer />
-            </Box>
-          </Grid>
+        </Grid>
+        <Grid item xs={12}>
+          <Box component="span" m={5}>
+            <Footer />
+          </Box>
         </Grid>
       </Grid>
     </>
