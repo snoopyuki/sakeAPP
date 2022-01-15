@@ -9,7 +9,7 @@ type PropsType = {
   setStepBarShowFlag: (param: boolean) => void;
   setinitShowFlag: (param: boolean) => void;
   setAreasShowFlag: (param: boolean) => void;
-  setSelectFlavorShowFlag:  (param: boolean) => void;
+  setSelectFlavorShowFlag: (param: boolean) => void;
   setRankingShowFlag: (param: boolean) => void;
   stubMode: boolean;
   setStubMode: (param: boolean) => void;
@@ -64,7 +64,12 @@ export const Menu: React.FC<PropsType> = (props: PropsType) => {
         <Button style={{ width: '60%' }} variant="contained" color="primary" onClick={onClickArea}>
           産地から選ぶ
         </Button>
-        <Button style={{ width: '60%' }} variant="contained" color="primary" onClick={onClickFlavor}>
+        <Button
+          style={{ width: '60%' }}
+          variant="contained"
+          color="primary"
+          onClick={onClickFlavor}
+        >
           フレーバーから選ぶ
         </Button>
         <Button
