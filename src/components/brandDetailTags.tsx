@@ -1,16 +1,16 @@
-// @ts-nocheck
-// buildとすために暫定対策
 
-import React, { useState } from 'react';
+import React from 'react';
 import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
+
+type PropsType = {
+  selectBrandFlavorTags: number[],
+  flavorTags: { [key:string]: string | number }[],
+}
 
 // タグ表示コンポーネント
-export const BrandDetailTags = (props) => {
-  const { selectBrandId, selectBrandFlavorTags, flavorTags } = props;
+export const BrandDetailTags = (props: PropsType) => {
+  const { selectBrandFlavorTags, flavorTags } = props;
 
   return (
     <>
@@ -23,11 +23,13 @@ export const BrandDetailTags = (props) => {
           padding: 0.5,
         }}
       >
-        {selectBrandFlavorTags.map((brandTagId, index) => {
+      {
+        selectBrandFlavorTags.map((brandTagId, index) => {
           const tagObj = flavorTags.find((flavorTag) => flavorTag.id === brandTagId);
-          console.log('tagName:' + tagObj.tag);
-          return <Chip key={index} label={tagObj.tag} color="primary" sx={{ margin: 0.5 }} />;
-        })}
+          if (tagObj != undefined)
+            return <Chip key={index} label={tagObj.tag} color="primary" sx={{ margin: 0.5 }} />;
+        })
+      }
       </Box>
     </>
   );

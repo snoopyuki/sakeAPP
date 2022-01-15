@@ -1,5 +1,3 @@
-import React from "react";
-
 const urlList = {
   // 通常モードの時に呼び出すURL
   normal: {

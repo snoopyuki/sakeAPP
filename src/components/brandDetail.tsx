@@ -5,6 +5,7 @@ import { Radar, RadarChart, PolarGrid, PolarAngleAxis, Tooltip } from 'recharts'
 import BrandDetailTags from './brandDetailTags';
 
 export const BrandDetail = (props) => {
+  const {brandDetailRadar,selectBrandFlavorTags,flavorTags} = props
   return (
     <>
       <RadarChart // レーダーチャートのサイズや位置、データを指定
@@ -12,7 +13,7 @@ export const BrandDetail = (props) => {
         width={300} //レーダーチャートの全体の幅を指定
         cx="50%" //要素の左を基準に全体の50%移動
         cy="50%" //要素の上を基準に全体の50%移動
-        data={props.brandDetailRadar} //ここにArray型のデータを指定
+        data={brandDetailRadar} //ここにArray型のデータを指定
       >
         {/*  レーダーのグリッド線を表示 */}
         <PolarGrid />
@@ -30,9 +31,8 @@ export const BrandDetail = (props) => {
         <Tooltip />
       </RadarChart>
       <BrandDetailTags
-        selectBrandId={props.selectBrandId}
-        selectBrandFlavorTags={props.selectBrandFlavorTags}
-        flavorTags={props.flavorTags}
+        selectBrandFlavorTags={selectBrandFlavorTags}
+        flavorTags={flavorTags}
       />
     </>
   );

@@ -1,5 +1,3 @@
-// @ts-nocheck
-// propsの型定義すること！
 
 import React, { useState } from 'react';
 import { Button, Drawer, FormGroup, FormControlLabel, Switch } from '@material-ui/core';
@@ -17,7 +15,13 @@ const menuStyle = {
   height: 'auto',
 };
 
-export const DrawerMenu = (props) => {
+type PropsType = {
+  stubMode: boolean,
+  setStubMode: (param: boolean) => void,
+}
+
+export const DrawerMenu = (props: PropsType) => {
+  const {stubMode, setStubMode} = props
   // ドロワーメニューの開閉状態
   const [open, setopen] = useState(false);
 
@@ -31,9 +35,9 @@ export const DrawerMenu = (props) => {
   // CORS問題が出るAPIを実行
   const onClickCors = () => {
     fetch(getApiUrlSakenowaAreas())
-      .then((response) => {
+      /*.then((response) => {
         // 処理なし
-      })
+      })*/
       .catch((error) => {
         alert('API実行時はCORS問題を解決すること。');
         console.log('API実行に失敗しました');
@@ -45,8 +49,8 @@ export const DrawerMenu = (props) => {
   };
 
   // スタブモードの切替
-  const onChangeStubMode = (event) => {
-    props.setStubMode(event.target.checked);
+  const onChangeStubMode = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setStubMode(event.target.checked);
     // コンテンツエリアの初期化処理を入れて方がいいかな
   };
   return (
@@ -130,7 +134,7 @@ export const DrawerMenu = (props) => {
           <br />
           <FormGroup>
             <FormControlLabel
-              control={<Switch checked={props.stubMode} onChange={onChangeStubMode} />}
+              control={<Switch checked={stubMode} onChange={onChangeStubMode} />}
               label="スタブモード"
               labelPlacement="start"
             />

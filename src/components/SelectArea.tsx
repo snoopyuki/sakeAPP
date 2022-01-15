@@ -49,7 +49,7 @@ export const SelectArea = (props) => {
   const [selectBrandId, setSelectBrandId] = useState(0);
   // 選択した銘柄のフレーバータグ配列
   const [selectBrandFlavorTags, setSelectBrandFlavorTags] = useState([]);
-  // apiから取得したフレーバータグ一覧
+  // apiから取得したフレーバータグ一覧  {"id": number, "tag": string}
   const [flavorTags, setFlavorTags] = useState([]);
 
   // 銘柄詳細エリアの制御フラグ
@@ -81,8 +81,8 @@ export const SelectArea = (props) => {
         setPrefecture(arrayPre);
         setPrefectureId(arrayPreId);
         setPrefectureSelectFlag(arrayPrefectureSelectFlag);
-        console.log('都道府県一覧を取得');
-        console.log(arrayPre);
+        // console.log('都道府県一覧を取得');
+        // console.log(arrayPre);
       })
       .catch((error) => {
         alert(
@@ -98,10 +98,10 @@ export const SelectArea = (props) => {
         return response.json();
       })
       .then((data) => {
-        console.log('flavor-tags(フレーバータグ一覧):');
-        console.log(data);
-        console.log('フレーバータグ一覧取り出す');
-        console.log(data.tags);
+        // console.log('flavor-tags(フレーバータグ一覧):');
+        // console.log(data);
+        // console.log('フレーバータグ一覧取り出す');
+        // console.log(data.tags);
         setFlavorTags(data.tags);
       })
       .catch((error) => {
@@ -205,9 +205,9 @@ export const SelectArea = (props) => {
         });
         // API実行結果をbreweriesに格納
         setBrands(arrayName); // 選択した蔵元の銘柄name配列
-        console.log(arrayName);
+        // console.log(arrayName);
         setBrandsId(arrayNameId); // 選択した蔵元の銘柄id配列
-        console.log(arrayNameId);
+        // console.log(arrayNameId);
         setbrandsSelectFlag(arrayNameSelectFlag);
       })
       .catch((error) => {
@@ -285,8 +285,8 @@ export const SelectArea = (props) => {
           return response.json();
         })
         .then((data) => {
-          console.log('brand-flavor-tags(銘柄フレーバータグ一覧):');
-          console.log(data);
+          // console.log('brand-flavor-tags(銘柄フレーバータグ一覧):');
+          // console.log(data);
           // タグのリストをリセット
           setSelectBrandFlavorTags([]);
 
