@@ -17,28 +17,6 @@ import { SelectArea } from "./components/SelectArea";
 export const App = () => {
   // グローバスステートの管理方法どうするか決める
 
-  // useStateの変数をまとめたい
-  // APIで取得してきた都道府県を挿入
-  const [prefecture, setPrefecture] = useState([]);
-  // APIで取得した都道府県のID。上記とまとめてOBJ化したい。
-  // 配列をpropsで渡しても元値を上書きできないのでuseState使う
-  const [prefectureId, setPrefectureId] = useState([]);
-
-  // 銘柄一覧
-  const [brands, setBrands] = useState([]);
-  // 銘柄一覧のID。上記とまとめてOBJ化したい
-  const [brandsId, setBrandsId] = useState([]);
-  // 銘柄の選択フラグ
-  const [brandsSelectFlag, setbrandsSelectFlag] = useState([]);
-  // 選択銘柄のフレーバーデータ
-  const [brandDetailRadar, setBrandDetailRadar] = useState([]);
-  // 選択した銘柄のbrandId
-  const [selectBrandId, setSelectBrandId] = useState(0);
-  // 選択した銘柄のフレーバータグ配列
-  const [selectBrandFlavorTags, setSelectBrandFlavorTags] = useState([]);
-  // apiから取得したフレーバータグ一覧
-  const [flavorTags, setFlavorTags] = useState([]);
-
   // 表示フラグまとめたい
   // StepBarの表示フラグ
   const [stepBarShowFlag, setStepBarShowFlag] = useState(false);
@@ -94,20 +72,23 @@ export const App = () => {
               <InitContents />
             </div>
           </Box>
-          {areasShowFlag && <SelectArea
-          setNowStep={setNowStep}
-          setStepBarShowFlag={setStepBarShowFlag}
-          areasShowFlag={areasShowFlag}
-          setAreasShowFlag={setAreasShowFlag}
-          stubMode={stubMode}
-          setStubMode={setStubMode}/>}
-        {/* フッター */}
-        <Grid item xs={12}>
-          <Box component="span" m={5}>
-            <Footer />
-          </Box>
+          {areasShowFlag && (
+            <SelectArea
+              setNowStep={setNowStep}
+              setStepBarShowFlag={setStepBarShowFlag}
+              areasShowFlag={areasShowFlag}
+              setAreasShowFlag={setAreasShowFlag}
+              stubMode={stubMode}
+              setStubMode={setStubMode}
+            />
+          )}
+          {/* フッター */}
+          <Grid item xs={12}>
+            <Box component="span" m={5}>
+              <Footer />
+            </Box>
+          </Grid>
         </Grid>
-      </Grid>
       </Grid>
     </>
   );

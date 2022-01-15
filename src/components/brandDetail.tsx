@@ -1,14 +1,8 @@
 // @ts-nocheck
 // buildとすために暫定対策
-
-import {
-  Radar,
-  RadarChart,
-  PolarGrid,
-  PolarAngleAxis,
-  Tooltip
-} from "recharts";
-import BrandDetailTags from "./brandDetailTags"
+import React from "react";
+import { Radar, RadarChart, PolarGrid, PolarAngleAxis, Tooltip } from 'recharts';
+import BrandDetailTags from './brandDetailTags';
 
 export const BrandDetail = (props) => {
   return (
