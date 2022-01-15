@@ -1,14 +1,19 @@
-// @ts-nocheck
-// propsの型定義すること！
-
 import React from 'react';
 import { Button } from '@material-ui/core';
 import Box from '@mui/material/Box';
 
 import { DrawerMenu } from './drawerMenu';
-import { getApiUrlAreas } from './getApiUrl';
 
-export const Menu = (props) => {
+type PropsType = {
+  setNowStep: (param: number) => void,
+  setStepBarShowFlag: (param: boolean) => void,
+  setinitShowFlag: (param: boolean) => void,
+  setAreasShowFlag: (param: boolean) => void,
+  stubMode: boolean,
+  setStubMode: (param: boolean) => void,
+}
+
+export const Menu = (props: PropsType) => {
   const {
     setNowStep,
     setStepBarShowFlag,
