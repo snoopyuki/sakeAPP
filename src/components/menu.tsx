@@ -24,7 +24,7 @@ export const Menu = (props: PropsType) => {
     stubMode,
     setStubMode,
   } = props;
-  // 産地取得のAPI実行
+
   const onClickArea = () => {
     // ステップバーの表示を更新
     setNowStep(0);
