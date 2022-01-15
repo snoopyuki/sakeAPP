@@ -8,7 +8,7 @@ type PropsType = {
   flavorTags: { [key: string]: string | number }[];
 };
 
-export const BrandDetail = (props: PropsType) => {
+export const BrandDetail: React.FC<PropsType> = (props: PropsType) => {
   const { brandDetailRadar, selectBrandFlavorTags, flavorTags } = props;
   return (
     <>

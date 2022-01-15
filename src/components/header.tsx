@@ -8,7 +8,7 @@ type PropsType = {
   setDrawerOpen: (pram: boolean) => void;
 };
 
-export const Header = (props: PropsType) => {
+export const Header: React.FC<PropsType> = (props: PropsType) => {
   const { children, setDrawerOpen } = props;
   const onClickDrawerMenu = () => {
     setDrawerOpen(true);

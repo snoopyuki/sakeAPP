@@ -21,7 +21,7 @@ type PropsType = {
   setDrawerOpen: (pram: boolean) => void;
 };
 
-export const DrawerMenu = (props: PropsType) => {
+export const DrawerMenu: React.FC<PropsType> = (props: PropsType) => {
   const { stubMode, setStubMode, drawerOpen, setDrawerOpen } = props;
 
   // ドロワーメニューの開閉状態変更

@@ -11,7 +11,7 @@ import { Footer } from "./components/footer";
 import { SelectArea } from "./components/SelectArea";
 import { RankingArea } from "./components/RankingArea";
 
-export const App = () => {
+export const App: React.FC = () => {
   // グローバスステートの管理方法どうするか決める
 
   // 表示フラグまとめたい

@@ -8,7 +8,7 @@ type PropsType = {
   stubMode: boolean;
 };
 
-export const RankingArea = (props: PropsType) => {
+export const RankingArea: React.FC<PropsType> = (props: PropsType) => {
   const { stubMode } = props;
 
   // ランキング一覧
@@ -63,6 +63,7 @@ export const RankingArea = (props: PropsType) => {
           // 小数点第3位を四捨五入
           item.score = Math.round(item.score * 100) / 100;
 
+          // 銘柄名を探す
           const brand = brandsId.findIndex((b) => b === item.brandId);
 
           if (brand) {
@@ -70,7 +71,7 @@ export const RankingArea = (props: PropsType) => {
           }
         });
         setRankings(data.overall);
-        console.log(data.overall);
+        // console.log(data.overall);
       })
       .catch((error) => {
         console.log(error);
@@ -85,7 +86,7 @@ export const RankingArea = (props: PropsType) => {
   const columns = [
     { field: 'rank', headerName: 'ランク', width: 150 },
     { field: 'score', headerName: 'スコア', width: 150 },
-    { field: 'name', headerName: '銘柄名', width: 200 },
+    { field: 'name', headerName: '銘柄', width: 200 },
   ];
 
   return (

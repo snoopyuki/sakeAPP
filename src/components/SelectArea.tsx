@@ -18,7 +18,7 @@ type PropsType = {
   stubMode: boolean;
 };
 
-export const SelectArea = (props: PropsType) => {
+export const SelectArea: React.FC<PropsType> = (props: PropsType) => {
   const { setNowStep, stubMode } = props;
 
   // APIで取得してきた都道府県を挿入

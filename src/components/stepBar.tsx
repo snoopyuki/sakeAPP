@@ -5,7 +5,7 @@ type PropsType = {
   nowStep: number;
 };
 
-export const StepBar = (props: PropsType) => {
+export const StepBar: React.FC<PropsType> = (props: PropsType) => {
   const { nowStep } = props;
   const areaStepList: string[] = ['都道府県', '蔵元', '銘柄'];
   // ステップバーのアクティブステップも上位でユーズステートにすること

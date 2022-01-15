@@ -16,7 +16,7 @@ type PropsType = {
   setDrawerOpen: (param: boolean) => void;
 };
 
-export const Menu = (props: PropsType) => {
+export const Menu: React.FC<PropsType> = (props: PropsType) => {
   const {
     setNowStep,
     setStepBarShowFlag,

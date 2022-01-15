@@ -8,7 +8,7 @@ type PropsType = {
 };
 
 // タグ表示コンポーネント
-export const BrandDetailTags = (props: PropsType) => {
+export const BrandDetailTags: React.FC<PropsType> = (props: PropsType) => {
   const { selectBrandFlavorTags, flavorTags } = props;
 
   return (

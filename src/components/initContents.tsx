@@ -50,7 +50,7 @@ const backLog: { [key: string]: string }[] = [
 ];
 
 // 初期表示のコンテンツエリア
-export const InitContents = () => {
+export const InitContents: React.FC = () => {
   return (
     <>
       <h3>冬休みの自由開発</h3>
