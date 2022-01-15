@@ -10,6 +10,7 @@ import { InitContents } from "./components/initContents";
 import { Footer } from "./components/footer";
 import { SelectArea } from "./components/SelectArea";
 import { RankingArea } from "./components/RankingArea";
+import { SelectFlavor } from "./components/SelectFlavor";
 
 export const App: React.FC = () => {
   // グローバスステートの管理方法どうするか決める
@@ -21,8 +22,8 @@ export const App: React.FC = () => {
   const [initShowFlag, setinitShowFlag] = useState(true);
   // 「都道府県から選ぶ」の表示フラグ
   const [areasShowFlag, setAreasShowFlag] = useState(false);
-  // TODO 「フレーバーから選ぶ」の表示フラグ
-  // const [selectFlavorShowFlag, setSelectFlavorShowFlag] = useState(false);
+  // 「フレーバーから選ぶ」の表示フラグ
+  const [selectFlavorShowFlag, setSelectFlavorShowFlag] = useState(false);
   // 「ランキング」の表示フラグ
   const [rankingShowFlag, setRankingShowFlag] = useState(false);
 
@@ -52,6 +53,7 @@ export const App: React.FC = () => {
               setStepBarShowFlag={setStepBarShowFlag}
               setinitShowFlag={setinitShowFlag}
               setAreasShowFlag={setAreasShowFlag}
+              setSelectFlavorShowFlag={setSelectFlavorShowFlag}
               setRankingShowFlag={setRankingShowFlag}
               stubMode={stubMode}
               setStubMode={setStubMode}
@@ -80,6 +82,7 @@ export const App: React.FC = () => {
             </div>
           </Box>
           {areasShowFlag && (<SelectArea setNowStep={setNowStep} stubMode={stubMode} />)}
+          {selectFlavorShowFlag && (<SelectFlavor setNowStep={setNowStep} stubMode={stubMode} />)}
           {rankingShowFlag && (<RankingArea stubMode={stubMode} />)}
           {/* フッター */}
           <Grid item xs={12}>
