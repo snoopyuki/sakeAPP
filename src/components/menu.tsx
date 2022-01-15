@@ -5,13 +5,14 @@ import Box from '@mui/material/Box';
 import { DrawerMenu } from './drawerMenu';
 
 type PropsType = {
-  setNowStep: (param: number) => void,
-  setStepBarShowFlag: (param: boolean) => void,
-  setinitShowFlag: (param: boolean) => void,
-  setAreasShowFlag: (param: boolean) => void,
-  stubMode: boolean,
-  setStubMode: (param: boolean) => void,
-}
+  setNowStep: (param: number) => void;
+  setStepBarShowFlag: (param: boolean) => void;
+  setinitShowFlag: (param: boolean) => void;
+  setAreasShowFlag: (param: boolean) => void;
+  setRankingShowFlag: (param: boolean) => void;
+  stubMode: boolean;
+  setStubMode: (param: boolean) => void;
+};
 
 export const Menu = (props: PropsType) => {
   const {
@@ -19,6 +20,7 @@ export const Menu = (props: PropsType) => {
     setStepBarShowFlag,
     setinitShowFlag,
     setAreasShowFlag,
+    setRankingShowFlag,
     stubMode,
     setStubMode,
   } = props;
@@ -26,10 +28,17 @@ export const Menu = (props: PropsType) => {
   const onClickArea = () => {
     // ステップバーの表示を更新
     setNowStep(0);
-    // 初期表示時コンテンツエリアの表示フラグをリセット
     setStepBarShowFlag(true);
     setinitShowFlag(false);
     setAreasShowFlag(true);
+    setRankingShowFlag(false);
+  };
+
+  const onClickRanking = () => {
+    setStepBarShowFlag(false);
+    setinitShowFlag(false);
+    setAreasShowFlag(false);
+    setRankingShowFlag(true);
   };
 
   return (
@@ -42,7 +51,12 @@ export const Menu = (props: PropsType) => {
         <Button style={{ width: '60%' }} disabled={true} variant="contained" color="primary">
           フレーバーから選ぶ
         </Button>
-        <Button style={{ width: '60%' }} disabled={true} variant="contained" color="primary">
+        <Button
+          style={{ width: '60%' }}
+          variant="contained"
+          color="primary"
+          onClick={onClickRanking}
+        >
           ランキング
         </Button>
       </Box>

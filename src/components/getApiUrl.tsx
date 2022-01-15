@@ -75,6 +75,13 @@ export const getApiUrlBrandFlavorTags = (stubModeFlag: boolean): string => {
   // CORS問題を解決するだけのURL（GW経由でHeader付与）
   else return urlList.normal.brandFlavorTags;
 };
+// ランキング一覧取得API実行先をスタブモードに応じて返却
+export const getApiUrlRankings = (stubModeFlag: boolean): string => {
+  // スタブモードのURL
+  if (stubModeFlag) return urlList.stub.rankings;
+  // CORS問題を解決するだけのURL（GW経由でHeader付与）
+  else return urlList.normal.rankings;
+};
 
 export const getApiUrlSakenowaAreas = (): string => {
   return urlList.sakenowa.areas;

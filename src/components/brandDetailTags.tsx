@@ -1,12 +1,11 @@
-
 import React from 'react';
 import Chip from '@mui/material/Chip';
 import Box from '@mui/material/Box';
 
 type PropsType = {
-  selectBrandFlavorTags: number[],
-  flavorTags: { [key:string]: string | number }[],
-}
+  selectBrandFlavorTags: number[];
+  flavorTags: { [key: string]: string | number }[];
+};
 
 // タグ表示コンポーネント
 export const BrandDetailTags = (props: PropsType) => {
@@ -23,13 +22,11 @@ export const BrandDetailTags = (props: PropsType) => {
           padding: 0.5,
         }}
       >
-      {
-        selectBrandFlavorTags.map((brandTagId, index) => {
+        {selectBrandFlavorTags.map((brandTagId, index) => {
           const tagObj = flavorTags.find((flavorTag) => flavorTag.id === brandTagId);
           if (tagObj != undefined)
             return <Chip key={index} label={tagObj.tag} color="primary" sx={{ margin: 0.5 }} />;
-        })
-      }
+        })}
       </Box>
     </>
   );

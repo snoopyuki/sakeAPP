@@ -1,14 +1,13 @@
-
-import React, {ReactNode} from "react";
+import React, { ReactNode } from 'react';
 import { AppBar, Toolbar, IconButton, Typography } from '@mui/material';
 import MenuIcon from '@material-ui/icons/Menu';
 
 type PropsType = {
-  children: ReactNode
-}
+  children: ReactNode;
+};
 
 export const Header = (props: PropsType) => {
-  const {children} = props
+  const { children } = props;
   return (
     <AppBar position="static">
       <Toolbar variant="dense">

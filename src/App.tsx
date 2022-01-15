@@ -9,6 +9,7 @@ import { StepBar } from "./components/stepBar";
 import { InitContents } from "./components/initContents";
 import { Footer } from "./components/footer";
 import { SelectArea } from "./components/SelectArea";
+import { RankingArea } from "./components/RankingArea";
 
 export const App = () => {
   // グローバスステートの管理方法どうするか決める
@@ -18,8 +19,12 @@ export const App = () => {
   const [stepBarShowFlag, setStepBarShowFlag] = useState(false);
   // 初期コンテンツエリアの表示フラグ
   const [initShowFlag, setinitShowFlag] = useState(true);
-  // 都道府県エリアの表示フラグ
+  // 「都道府県から選ぶ」の表示フラグ
   const [areasShowFlag, setAreasShowFlag] = useState(false);
+  // TODO 「フレーバーから選ぶ」の表示フラグ
+  // const [selectFlavorShowFlag, setSelectFlavorShowFlag] = useState(false);
+  // 「ランキング」の表示フラグ
+  const [rankingShowFlag, setRankingShowFlag] = useState(false);
 
   // ステップバーの現在の段階
   const [nowStep, setNowStep] = useState(0);
@@ -44,6 +49,7 @@ export const App = () => {
               setStepBarShowFlag={setStepBarShowFlag}
               setinitShowFlag={setinitShowFlag}
               setAreasShowFlag={setAreasShowFlag}
+              setRankingShowFlag={setRankingShowFlag}
               stubMode={stubMode}
               setStubMode={setStubMode}
             />
@@ -69,6 +75,7 @@ export const App = () => {
             </div>
           </Box>
           {areasShowFlag && (<SelectArea setNowStep={setNowStep} stubMode={stubMode} />)}
+          {rankingShowFlag && (<RankingArea stubMode={stubMode} />)}
           {/* フッター */}
           <Grid item xs={12}>
             <Box component="span" m={5}>

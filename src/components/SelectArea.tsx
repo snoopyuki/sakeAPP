@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@material-ui/core';
 import Box from '@mui/material/Box';
@@ -15,13 +14,12 @@ import {
 } from './getApiUrl';
 
 type PropsType = {
-  setNowStep: (param: number) => void,
-  stubMode: boolean,
-}
+  setNowStep: (param: number) => void;
+  stubMode: boolean;
+};
 
 export const SelectArea = (props: PropsType) => {
-  const { setNowStep, stubMode } =
-    props;
+  const { setNowStep, stubMode } = props;
 
   // APIで取得してきた都道府県を挿入
   const [prefecture, setPrefecture] = useState<string[]>([]);
@@ -46,13 +44,15 @@ export const SelectArea = (props: PropsType) => {
   // 銘柄の選択フラグ
   const [brandsSelectFlag, setbrandsSelectFlag] = useState<boolean[]>([]);
   // 選択銘柄のフレーバーデータ
-  const [brandDetailRadar, setBrandDetailRadar] = useState<{[key:string]: string | number}[]>([]);
+  const [brandDetailRadar, setBrandDetailRadar] = useState<{ [key: string]: string | number }[]>(
+    [],
+  );
   // 選択した銘柄のbrandId
   const [selectBrandId, setSelectBrandId] = useState(0);
   // 選択した銘柄のフレーバータグ配列
   const [selectBrandFlavorTags, setSelectBrandFlavorTags] = useState<number[]>([]);
   // apiから取得したフレーバータグ一覧  {"id": number, "tag": string}
-  const [flavorTags, setFlavorTags] = useState<{[key:string]: string | number}[]>([]);
+  const [flavorTags, setFlavorTags] = useState<{ [key: string]: string | number }[]>([]);
 
   // 銘柄詳細エリアの制御フラグ
   const [brandDetailShowFlag, setBrandDetailShowFlag] = useState(false);
@@ -73,7 +73,7 @@ export const SelectArea = (props: PropsType) => {
         const arrayPre: Array<string> = [];
         const arrayPreId: Array<number> = [];
         const arrayPrefectureSelectFlag: Array<boolean> = [];
-        data.areas.map((areas: {[key: string]: any}) => {
+        data.areas.map((areas: { [key: string]: any }) => {
           arrayPre.push(areas.name);
           arrayPreId.push(areas.id);
           arrayPrefectureSelectFlag.push(false);
@@ -148,7 +148,7 @@ export const SelectArea = (props: PropsType) => {
         const arrayName: Array<string> = [];
         const arrayNameId: Array<number> = [];
         const arrayNameSelectFlag: Array<boolean> = [];
-        data.breweries.map((bre: {[key:string]: any}) => {
+        data.breweries.map((bre: { [key: string]: any }) => {
           // 地域が一致かつ蔵元名が空以外を抽出
           if (bre.areaId === prefectureId[index] && bre.name !== '') {
             arrayName.push(bre.name);
@@ -197,7 +197,7 @@ export const SelectArea = (props: PropsType) => {
         const arrayName: Array<string> = [];
         const arrayNameId: Array<number> = [];
         const arrayNameSelectFlag: Array<boolean> = [];
-        data.brands.map((bra: {[key:string]: any}) => {
+        data.brands.map((bra: { [key: string]: any }) => {
           // 蔵元が一致かつ銘柄が空以外を抽出
           if (bra.breweryId === breweriesId[index] && bra.name !== '') {
             arrayName.push(bra.name);
@@ -260,7 +260,7 @@ export const SelectArea = (props: PropsType) => {
 
         // 配列の中身をループで回して取得
         // 選択された銘柄のフレーバーだけを抽出
-        data.flavorCharts.map((fla: {[key:string]: any}) => {
+        data.flavorCharts.map((fla: { [key: string]: any }) => {
           // 銘柄が一致するものを抽出
           if (fla.brandId === brandsId[index]) {
             setBrandDetailRadar([
@@ -295,7 +295,7 @@ export const SelectArea = (props: PropsType) => {
           // タグのリストをリセット
           setSelectBrandFlavorTags([]);
 
-          data.flavorTags.forEach((fla: {[key:string]: any}) => {
+          data.flavorTags.forEach((fla: { [key: string]: any }) => {
             // 銘柄が一致するものを抽出
             if (fla.brandId === brandsId[index]) {
               setSelectBrandFlavorTags(fla.tagIds);
@@ -359,9 +359,7 @@ export const SelectArea = (props: PropsType) => {
                   key={index} // key変更
                   variant="contained"
                   disabled={brandsSelectFlag[index]}
-                  onClick={() =>
-                    onClickflavorGet(index)
-                  }
+                  onClick={() => onClickflavorGet(index)}
                 >
                   {bra}
                 </Button>

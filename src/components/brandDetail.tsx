@@ -1,16 +1,15 @@
-
-import React from "react";
+import React from 'react';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, Tooltip } from 'recharts';
 import BrandDetailTags from './brandDetailTags';
 
 type PropsType = {
-  brandDetailRadar: { [key:string]: string | number }[],
-  selectBrandFlavorTags: number[],
-  flavorTags: { [key:string]: string | number }[],
-}
+  brandDetailRadar: { [key: string]: string | number }[];
+  selectBrandFlavorTags: number[];
+  flavorTags: { [key: string]: string | number }[];
+};
 
 export const BrandDetail = (props: PropsType) => {
-  const {brandDetailRadar,selectBrandFlavorTags,flavorTags} = props
+  const { brandDetailRadar, selectBrandFlavorTags, flavorTags } = props;
   return (
     <>
       <RadarChart // レーダーチャートのサイズや位置、データを指定
@@ -35,10 +34,7 @@ export const BrandDetail = (props: PropsType) => {
         {/* hoverすると各パラメーターの値が表示される */}
         <Tooltip />
       </RadarChart>
-      <BrandDetailTags
-        selectBrandFlavorTags={selectBrandFlavorTags}
-        flavorTags={flavorTags}
-      />
+      <BrandDetailTags selectBrandFlavorTags={selectBrandFlavorTags} flavorTags={flavorTags} />
     </>
   );
 };

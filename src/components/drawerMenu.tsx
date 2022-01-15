@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button, Drawer, FormGroup, FormControlLabel, Switch } from '@material-ui/core';
 import Box from '@mui/material/Box';
@@ -16,12 +15,12 @@ const menuStyle = {
 };
 
 type PropsType = {
-  stubMode: boolean,
-  setStubMode: (param: boolean) => void,
-}
+  stubMode: boolean;
+  setStubMode: (param: boolean) => void;
+};
 
 export const DrawerMenu = (props: PropsType) => {
-  const {stubMode, setStubMode} = props
+  const { stubMode, setStubMode } = props;
   // ドロワーメニューの開閉状態
   const [open, setopen] = useState(false);
 
