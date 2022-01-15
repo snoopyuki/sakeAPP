@@ -1,16 +1,15 @@
-// @ts-nocheck
-// buildとすために暫定対策
+import React from 'react';
+import { Radar, RadarChart, PolarGrid, PolarAngleAxis, Tooltip } from 'recharts';
+import BrandDetailTags from './brandDetailTags';
 
-import {
-  Radar,
-  RadarChart,
-  PolarGrid,
-  PolarAngleAxis,
-  Tooltip
-} from "recharts";
-import BrandDetailTags from "./brandDetailTags"
+type PropsType = {
+  brandDetailRadar: { [key: string]: string | number }[];
+  selectBrandFlavorTags: number[];
+  flavorTags: { [key: string]: string | number }[];
+};
 
-export const BrandDetail = (props) => {
+export const BrandDetail: React.FC<PropsType> = (props: PropsType) => {
+  const { brandDetailRadar, selectBrandFlavorTags, flavorTags } = props;
   return (
     <>
       <RadarChart // レーダーチャートのサイズや位置、データを指定
@@ -18,7 +17,7 @@ export const BrandDetail = (props) => {
         width={300} //レーダーチャートの全体の幅を指定
         cx="50%" //要素の左を基準に全体の50%移動
         cy="50%" //要素の上を基準に全体の50%移動
-        data={props.brandDetailRadar} //ここにArray型のデータを指定
+        data={brandDetailRadar} //ここにArray型のデータを指定
       >
         {/*  レーダーのグリッド線を表示 */}
         <PolarGrid />
@@ -35,11 +34,7 @@ export const BrandDetail = (props) => {
         {/* hoverすると各パラメーターの値が表示される */}
         <Tooltip />
       </RadarChart>
-      <BrandDetailTags
-        selectBrandId={props.selectBrandId}
-        selectBrandFlavorTags={props.selectBrandFlavorTags}
-        flavorTags={props.flavorTags}
-      />
+      <BrandDetailTags selectBrandFlavorTags={selectBrandFlavorTags} flavorTags={flavorTags} />
     </>
   );
 };
