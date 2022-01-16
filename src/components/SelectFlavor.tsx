@@ -3,7 +3,36 @@ import Grid from '@mui/material/Grid';
 import Slider from '@mui/material/Slider';
 import Button from '@material-ui/core/Button';
 
-import { getApiUrlRankings, getApiUrlBrands } from './getApiUrl';
+import { getApiUrlFlavorCharts } from './getApiUrl';
+
+const getBrandsDetailData = (stubMode: boolean) => {
+  // APIの実行完了を待たせる
+  return new Promise(function (resolve) {
+    // 比較対象とする銘柄のフレーバー値を取得
+    const BrandsDetailData: number[][] = [];
+    fetch(getApiUrlFlavorCharts(stubMode), { mode: 'cors' })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        // 配列の中身をループで回して取得
+        data.flavorCharts.map((fla: { [key: string]: number }) => {
+          // 計算量が多そうなので適当に対象を絞る
+          if (fla.brandId < 10) {
+            BrandsDetailData.push([fla.f1, fla.f2, fla.f3, fla.f4, fla.f5, fla.f6, fla.brandId]);
+          }
+        });
+        // API実行後に返却
+        resolve(BrandsDetailData);
+        // console.log(BrandsDetailData);
+      })
+      .catch((error) => {
+        console.log(error);
+        // alert('API実行時はCORS問題を解決すること。');
+        console.log('失敗しました');
+      });
+  });
+};
 
 type PropsType = {
   setNowStep: (param: number) => void;
@@ -16,7 +45,7 @@ export const SelectFlavor: React.FC<PropsType> = (props: PropsType) => {
   // 入力された好みのフレーバーデータ
   const [inputLikeFlavor, setInputLikeFlavor] = useState<{ [key: string]: number }>({});
   // 検索された銘柄のcos類似度
-  const [cos, setCos] = useState<number>(0.001); // 初期値適当
+  const [cos, setCos] = useState<number>(-1); // 初期値はcos-180
   // 一番類似度が高い銘柄
   const [similarSake, setSimilarSake] = useState<string>('一番類似度が高い銘柄');
 
@@ -52,43 +81,63 @@ export const SelectFlavor: React.FC<PropsType> = (props: PropsType) => {
   };
 
   // 入力値と似た銘柄を検索
-  const onClickSearch = () => {
+  async function onClickSearch() {
     // 入力値を変換して確認
     // スマートに書き直したい
+    // 0~1のデータ範囲だとcos90-180度が出ないので-1~1の範囲に補正
     const comparisonData = [
-      inputLikeFlavor.f1 / 100,
-      inputLikeFlavor.f2 / 100,
-      inputLikeFlavor.f3 / 100,
-      inputLikeFlavor.f4 / 100,
-      inputLikeFlavor.f5 / 100,
-      inputLikeFlavor.f6 / 100,
+      (inputLikeFlavor.f1 / 100 - 0.5) * 2,
+      (inputLikeFlavor.f2 / 100 - 0.5) * 2,
+      (inputLikeFlavor.f3 / 100 - 0.5) * 2,
+      (inputLikeFlavor.f4 / 100 - 0.5) * 2,
+      (inputLikeFlavor.f5 / 100 - 0.5) * 2,
+      (inputLikeFlavor.f6 / 100 - 0.5) * 2,
     ];
-    console.log(comparisonData);
+    //    console.log(comparisonData);
+    // テストコード：男山と比較して類似度を出してみる用
+    // const otokoyamaData = [
+    //   (0.2749325169644553 - 0.5) * 2,
+    //   (0.4181043602797808 - 0.5) * 2,
+    //   (0.2942875941983029 - 0.5) * 2,
+    //   (0.4621684039563314 - 0.5) * 2,
+    //   (0.5162428246010948 - 0.5) * 2,
+    //   (0.4276556785124455 - 0.5) * 2,
+    // ];
 
-    // テストコード：男山と比較して類似度を出してみる
-    const otokoyamaData = [
-      0.2749325169644553,
-      0.4181043602797808,
-      0.2942875941983029,
-      0.4621684039563314,
-      0.5162428246010948,
-      0.42765567851244557,
-    ];
-    // 変数準備
-    let ab1 = 0;
-    let ab2 = 0;
-    let ab3 = 0;
-    //事前計算
-    for (let i = 0; i < comparisonData.length; i++) {
-      ab1 += comparisonData[i] * otokoyamaData[i];
-      ab2 += comparisonData[i] * comparisonData[i];
-      ab3 += otokoyamaData[i] * otokoyamaData[i];
+    // 比較対象の銘柄データを取得。
+    // 計算量が多そうなので絞ってもいいかも。
+    // 上手く型定義かけない。promiseだから？？
+    //@ts-ignore
+    const brandsDetailData: number[][] = await getBrandsDetailData(stubMode);
+    // console.log(brandsDetailData);
+
+    // brandsDetailData[i]に入っている銘柄毎にcos類似度を計算
+    for (let i = 0; i < brandsDetailData.length; i++) {
+      console.log(brandsDetailData[i]);
+      // 変数準備
+      let ab1 = 0;
+      let ab2 = 0;
+      let ab3 = 0;
+
+      //事前計算
+      for (let j = 0; j < comparisonData.length; j++) {
+        ab1 += comparisonData[j] * brandsDetailData[i][j];
+        ab2 += comparisonData[j] * comparisonData[j];
+        ab3 += brandsDetailData[i][j] * brandsDetailData[i][j];
+      }
+
+      //コサイン類似度のアルゴリズム
+      // 1に近いほど類似度が高い
+      // コサイン類似度はベクトルの角度で判断される（ベクトル量は考慮されないので注意）
+      // ユークリッド距離を使って類似度を出した方がいいかも。
+      const brandsCos = ab1 / (Math.sqrt(ab2) * Math.sqrt(ab3));
+      console.log('ブランドID' + brandsDetailData[i][6] + 'のcos類似度は' + brandsCos);
+      if (brandsCos > cos) {
+        setCos(brandsCos);
+        //        setSimilarSake(brandsDetailData[i][6])
+      }
     }
-    //コサイン類似度のアルゴリズム
-    // 1に近いほど類似度が高い
-    // コサイン類似度はベクトルの角度で判断される（ベクトル量は考慮されないので注意）
-    setCos(ab1 / (Math.sqrt(ab2) * Math.sqrt(ab3)));
-  };
+  }
 
   return (
     <>
