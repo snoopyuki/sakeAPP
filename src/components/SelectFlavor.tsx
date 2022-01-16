@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 import Slider from '@mui/material/Slider';
 import Button from '@material-ui/core/Button';
 
-import { getApiUrlFlavorCharts } from './getApiUrl';
+import { getApiUrlFlavorCharts, getApiUrlBrands } from './getApiUrl';
 
 const getBrandsDetailData = (stubMode: boolean) => {
   // APIの実行完了を待たせる
@@ -18,13 +18,38 @@ const getBrandsDetailData = (stubMode: boolean) => {
         // 配列の中身をループで回して取得
         data.flavorCharts.map((fla: { [key: string]: number }) => {
           // 計算量が多そうなので適当に対象を絞る
-          if (fla.brandId < 10) {
+          if (fla.brandId < 1000) {
             BrandsDetailData.push([fla.f1, fla.f2, fla.f3, fla.f4, fla.f5, fla.f6, fla.brandId]);
           }
         });
         // API実行後に返却
         resolve(BrandsDetailData);
         // console.log(BrandsDetailData);
+      })
+      .catch((error) => {
+        console.log(error);
+        // alert('API実行時はCORS問題を解決すること。');
+        console.log('失敗しました');
+      });
+  });
+};
+
+const getBrandName = (stubMode: boolean, brandId: number) => {
+  // APIの実行完了を待たせる
+  return new Promise(function (resolve) {
+    fetch(getApiUrlBrands(stubMode), { mode: 'cors' })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        data.brands.map((bra: { [key: string]: any }) => {
+          // 蔵元が一致かつ銘柄が空以外を抽出
+          if (bra.id === brandId) {
+            // API実行後にidと一致するnameを返却
+            resolve(bra.name);
+          }
+          return 0;
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -112,6 +137,7 @@ export const SelectFlavor: React.FC<PropsType> = (props: PropsType) => {
     // console.log(brandsDetailData);
 
     // brandsDetailData[i]に入っている銘柄毎にcos類似度を計算
+    let bestCos = cos; //setCosの動作がタイムタグあるみたいので代替変数定義
     for (let i = 0; i < brandsDetailData.length; i++) {
       console.log(brandsDetailData[i]);
       // 変数準備
@@ -121,9 +147,9 @@ export const SelectFlavor: React.FC<PropsType> = (props: PropsType) => {
 
       //事前計算
       for (let j = 0; j < comparisonData.length; j++) {
-        ab1 += comparisonData[j] * brandsDetailData[i][j];
+        ab1 += comparisonData[j] * (brandsDetailData[i][j] - 0.5) * 2;
         ab2 += comparisonData[j] * comparisonData[j];
-        ab3 += brandsDetailData[i][j] * brandsDetailData[i][j];
+        ab3 += (brandsDetailData[i][j] - 0.5) * 2 * (brandsDetailData[i][j] - 0.5) * 2;
       }
 
       //コサイン類似度のアルゴリズム
@@ -132,9 +158,11 @@ export const SelectFlavor: React.FC<PropsType> = (props: PropsType) => {
       // ユークリッド距離を使って類似度を出した方がいいかも。
       const brandsCos = ab1 / (Math.sqrt(ab2) * Math.sqrt(ab3));
       console.log('ブランドID' + brandsDetailData[i][6] + 'のcos類似度は' + brandsCos);
-      if (brandsCos > cos) {
-        setCos(brandsCos);
-        //        setSimilarSake(brandsDetailData[i][6])
+      if (brandsCos > bestCos) {
+        setCos(brandsCos); // cos類似度を更新
+        bestCos = brandsCos; // cosのタイムラグ対策
+        //@ts-ignore
+        setSimilarSake(await getBrandName(stubMode, brandsDetailData[i][6])); // 銘柄名を更新
       }
     }
   }
