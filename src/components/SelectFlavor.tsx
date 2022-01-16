@@ -1,5 +1,3 @@
-// @ts-nocheck
-// 時間ないのでやっつけ。許して。
 import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import Slider from '@mui/material/Slider';
@@ -7,7 +5,7 @@ import Button from '@material-ui/core/Button';
 
 import { getApiUrlFlavorCharts, getApiUrlBrands } from './getApiUrl';
 
-const getBrandsDetailData = (stubMode: boolean) => {
+const getBrandsDetailData = (stubMode: boolean): Promise<number[][]> => {
   // APIの実行完了を待たせる
   return new Promise(function (resolve) {
     // 比較対象とする銘柄のフレーバー値を取得
@@ -36,7 +34,7 @@ const getBrandsDetailData = (stubMode: boolean) => {
   });
 };
 
-const getBrandName = (stubMode: boolean, brandId: number) => {
+const getBrandName = (stubMode: boolean, brandId: number): Promise<string> => {
   // APIの実行完了を待たせる
   return new Promise(function (resolve) {
     fetch(getApiUrlBrands(stubMode), { mode: 'cors' })
@@ -133,8 +131,6 @@ export const SelectFlavor: React.FC<PropsType> = (props: PropsType) => {
 
     // 比較対象の銘柄データを取得。
     // 計算量が多そうなので絞ってもいいかも。
-    // 上手く型定義かけない。promiseだから？？
-    //@ts-ignore
     const brandsDetailData: number[][] = await getBrandsDetailData(stubMode);
     // console.log(brandsDetailData);
 
@@ -163,7 +159,6 @@ export const SelectFlavor: React.FC<PropsType> = (props: PropsType) => {
       if (brandsCos > bestCos) {
         setCos(brandsCos); // cos類似度を更新
         bestCos = brandsCos; // cosのタイムラグ対策
-        //@ts-ignore
         setSimilarSake(await getBrandName(stubMode, brandsDetailData[i][6])); // 銘柄名を更新
       }
     }
