@@ -4,9 +4,17 @@ import Box from '@mui/material/Box';
 
 import { DrawerMenu } from './drawerMenu';
 
+type ContentsShoFlagType = {
+  init: boolean;
+  stepBar: boolean;
+  areas: boolean;
+  selectFlavor: boolean;
+  rankingShow: boolean;
+};
 type PropsType = {
+  contentsShowFlag: ContentsShoFlagType;
+  setContentsShowFlag: (param: ContentsShoFlagType) => void;
   setNowStep: (param: number) => void;
-  setStepBarShowFlag: (param: boolean) => void;
   setinitShowFlag: (param: boolean) => void;
   setAreasShowFlag: (param: boolean) => void;
   setSelectFlavorShowFlag: (param: boolean) => void;
@@ -19,8 +27,9 @@ type PropsType = {
 
 export const Menu: React.FC<PropsType> = (props: PropsType) => {
   const {
+    contentsShowFlag,
+    setContentsShowFlag,
     setNowStep,
-    setStepBarShowFlag,
     setinitShowFlag,
     setAreasShowFlag,
     setSelectFlavorShowFlag,
@@ -34,7 +43,7 @@ export const Menu: React.FC<PropsType> = (props: PropsType) => {
   const onClickArea = () => {
     // ステップバーの表示を更新
     setNowStep(0);
-    setStepBarShowFlag(true);
+    setContentsShowFlag({ ...contentsShowFlag, stepBar: true });
     setinitShowFlag(false);
     setAreasShowFlag(true);
     setSelectFlavorShowFlag(false);
@@ -42,7 +51,7 @@ export const Menu: React.FC<PropsType> = (props: PropsType) => {
   };
 
   const onClickRanking = () => {
-    setStepBarShowFlag(false);
+    setContentsShowFlag({ ...contentsShowFlag, stepBar: false });
     setinitShowFlag(false);
     setAreasShowFlag(false);
     setSelectFlavorShowFlag(false);
@@ -50,7 +59,7 @@ export const Menu: React.FC<PropsType> = (props: PropsType) => {
   };
 
   const onClickFlavor = () => {
-    setStepBarShowFlag(false);
+    setContentsShowFlag({ ...contentsShowFlag, stepBar: false });
     setinitShowFlag(false);
     setAreasShowFlag(false);
     setSelectFlavorShowFlag(true);

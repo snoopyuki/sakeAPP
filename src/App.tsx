@@ -16,16 +16,14 @@ export const App: React.FC = () => {
 
   // 表示フラグはグローバスステート化する？
   // 各表示フラグを下記に置き換える予定
-  const [showFlag, setShowFlag] = useState([
-    { init: true }, // 初期コンテンツエリアの表示フラグ
-    { stepBar: false }, // StepBarの表示フラグ
-    { areas: false }, // 「都道府県から選ぶ」の表示フラグ
-    { selectFlavor: false }, // 「フレーバーから選ぶ」の表示フラグ
-    { rankingShow: false }, // 「ランキング」の表示フラグ
-  ]);
+  const [contentsShowFlag, setContentsShowFlag] = useState({
+    init: true, // 初期コンテンツエリアの表示フラグ
+    stepBar: false, // StepBarの表示フラグ
+    areas: false, // 「都道府県から選ぶ」の表示フラグ
+    selectFlavor: false, // 「フレーバーから選ぶ」の表示フラグ
+    rankingShow: false, // 「ランキング」の表示フラグ
+  });
 
-  // StepBarの表示フラグ
-  const [stepBarShowFlag, setStepBarShowFlag] = useState(false);
   // 初期コンテンツエリアの表示フラグ
   const [initShowFlag, setinitShowFlag] = useState(true);
   // 「都道府県から選ぶ」の表示フラグ
@@ -58,8 +56,9 @@ export const App: React.FC = () => {
         <Grid item xs={4}>
           <Box component="span" m={1}>
             <Menu
+              contentsShowFlag={contentsShowFlag}
+              setContentsShowFlag={setContentsShowFlag}
               setNowStep={setNowStep}
-              setStepBarShowFlag={setStepBarShowFlag}
               setinitShowFlag={setinitShowFlag}
               setAreasShowFlag={setAreasShowFlag}
               setSelectFlavorShowFlag={setSelectFlavorShowFlag}
@@ -73,7 +72,7 @@ export const App: React.FC = () => {
         </Grid>
         {/* ステップバー */}
         <Grid item xs={8}>
-          <Box component="span" m={1} style={{ display: stepBarShowFlag ? '' : 'none' }}>
+          <Box component="span" m={1} style={{ display: contentsShowFlag.stepBar ? '' : 'none' }}>
             <StepBar nowStep={nowStep} />
           </Box>
           {/* コンテンツ配置 */}
