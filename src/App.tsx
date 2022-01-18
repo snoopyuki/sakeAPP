@@ -14,7 +14,16 @@ import { SelectFlavor } from './components/SelectFlavor';
 export const App: React.FC = () => {
   // グローバスステートの管理方法どうするか決める
 
-  // 表示フラグまとめたい
+  // 表示フラグはグローバスステート化する？
+  // 各表示フラグを下記に置き換える予定
+  const [showFlag, setShowFlag] = useState([
+    { init: true }, // 初期コンテンツエリアの表示フラグ
+    { stepBar: false }, // StepBarの表示フラグ
+    { areas: false }, // 「都道府県から選ぶ」の表示フラグ
+    { selectFlavor: false }, // 「フレーバーから選ぶ」の表示フラグ
+    { rankingShow: false }, // 「ランキング」の表示フラグ
+  ]);
+
   // StepBarの表示フラグ
   const [stepBarShowFlag, setStepBarShowFlag] = useState(false);
   // 初期コンテンツエリアの表示フラグ
@@ -30,6 +39,7 @@ export const App: React.FC = () => {
   const [nowStep, setNowStep] = useState(0);
 
   // スタブモードの状態を保持
+  // mainProvider.tsxでグローバルステート化予定。完了すれば、以下は削除
   const [stubMode, setStubMode] = useState(true);
 
   // ドロワーメニューの開閉状態
