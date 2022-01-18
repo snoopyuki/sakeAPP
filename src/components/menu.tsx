@@ -9,14 +9,12 @@ type ContentsShoFlagType = {
   stepBar: boolean;
   areas: boolean;
   selectFlavor: boolean;
-  rankingShow: boolean;
+  ranking: boolean;
 };
 type PropsType = {
   contentsShowFlag: ContentsShoFlagType;
   setContentsShowFlag: (param: ContentsShoFlagType) => void;
   setNowStep: (param: number) => void;
-  setinitShowFlag: (param: boolean) => void;
-  setAreasShowFlag: (param: boolean) => void;
   setSelectFlavorShowFlag: (param: boolean) => void;
   setRankingShowFlag: (param: boolean) => void;
   stubMode: boolean;
@@ -30,10 +28,6 @@ export const Menu: React.FC<PropsType> = (props: PropsType) => {
     contentsShowFlag,
     setContentsShowFlag,
     setNowStep,
-    setinitShowFlag,
-    setAreasShowFlag,
-    setSelectFlavorShowFlag,
-    setRankingShowFlag,
     stubMode,
     setStubMode,
     drawerOpen,
@@ -43,27 +37,37 @@ export const Menu: React.FC<PropsType> = (props: PropsType) => {
   const onClickArea = () => {
     // ステップバーの表示を更新
     setNowStep(0);
-    setContentsShowFlag({ ...contentsShowFlag, stepBar: true });
-    setinitShowFlag(false);
-    setAreasShowFlag(true);
-    setSelectFlavorShowFlag(false);
-    setRankingShowFlag(false);
+    // 産地から選ぶ押下時：ステップバーと産地を表示
+    setContentsShowFlag({
+      ...contentsShowFlag, // 要らないけど分割代入の書き方メモ
+      init: false,
+      stepBar: true,
+      areas: true,
+      selectFlavor: false,
+      ranking: false,
+    });
   };
 
   const onClickRanking = () => {
-    setContentsShowFlag({ ...contentsShowFlag, stepBar: false });
-    setinitShowFlag(false);
-    setAreasShowFlag(false);
-    setSelectFlavorShowFlag(false);
-    setRankingShowFlag(true);
+    // ランキングボタン押下時：ランキングを表示
+    setContentsShowFlag({
+      init: false,
+      stepBar: false,
+      areas: false,
+      selectFlavor: false,
+      ranking: true,
+    });
   };
 
   const onClickFlavor = () => {
-    setContentsShowFlag({ ...contentsShowFlag, stepBar: false });
-    setinitShowFlag(false);
-    setAreasShowFlag(false);
-    setSelectFlavorShowFlag(true);
-    setRankingShowFlag(false);
+    // フレーバーから選ぶ押下時：フレーバーを表示
+    setContentsShowFlag({
+      init: false,
+      stepBar: false,
+      areas: false,
+      selectFlavor: true,
+      ranking: false,
+    });
   };
 
   return (
