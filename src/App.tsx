@@ -10,6 +10,7 @@ import { Footer } from './components/footer';
 import { SelectArea } from './components/SelectArea';
 import { RankingArea } from './components/RankingArea';
 import { SelectFlavor } from './components/SelectFlavor';
+import { MainProvider } from './providers/mainProvider';
 
 export const App: React.FC = () => {
   // 表示フラグをOBJでまとめた
@@ -32,7 +33,7 @@ export const App: React.FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (
-    <>
+    <MainProvider>
       {/* ヘッダー */}
       <Grid container>
         <Grid item xs={12}>
@@ -78,6 +79,6 @@ export const App: React.FC = () => {
           </Box>
         </Grid>
       </Grid>
-    </>
+    </MainProvider>
   );
 };

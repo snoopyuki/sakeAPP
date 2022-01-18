@@ -15,8 +15,6 @@ type PropsType = {
   contentsShowFlag: ContentsShoFlagType;
   setContentsShowFlag: (param: ContentsShoFlagType) => void;
   setNowStep: (param: number) => void;
-  setSelectFlavorShowFlag: (param: boolean) => void;
-  setRankingShowFlag: (param: boolean) => void;
   stubMode: boolean;
   setStubMode: (param: boolean) => void;
   drawerOpen: boolean;
