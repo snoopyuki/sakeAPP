@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+import React, { useState } from "react";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
 
-import { Header } from './components/header';
-import { Menu } from './components/menu';
-import { StepBar } from './components/stepBar';
-import { InitContents } from './components/initContents';
-import { Footer } from './components/footer';
-import { SelectArea } from './components/SelectArea';
-import { RankingArea } from './components/RankingArea';
-import { SelectFlavor } from './components/SelectFlavor';
+import { Header } from "./components/header";
+import { Menu } from "./components/menu";
+import { StepBar } from "./components/stepBar";
+import { InitContents } from "./components/initContents";
+import { Footer } from "./components/footer";
+import { SelectArea } from "./components/SelectArea";
+import { RankingArea } from "./components/RankingArea";
+import { SelectFlavor } from "./components/SelectFlavor";
+import { SelectBland } from "./components/SelectBland";
 
 export const App: React.FC = () => {
   // グローバスステートの管理方法どうするか決める
@@ -23,6 +24,8 @@ export const App: React.FC = () => {
   const [areasShowFlag, setAreasShowFlag] = useState(false);
   // 「フレーバーから選ぶ」の表示フラグ
   const [selectFlavorShowFlag, setSelectFlavorShowFlag] = useState(false);
+  // 「銘柄から選ぶ」の表示フラグ
+  const [selectBlandShowFlag, setSelectBlandShowFlag] = useState(false);
   // 「ランキング」の表示フラグ
   const [rankingShowFlag, setRankingShowFlag] = useState(false);
 
@@ -53,6 +56,7 @@ export const App: React.FC = () => {
               setinitShowFlag={setinitShowFlag}
               setAreasShowFlag={setAreasShowFlag}
               setSelectFlavorShowFlag={setSelectFlavorShowFlag}
+              setSelectBlandShowFlag={setSelectBlandShowFlag}
               setRankingShowFlag={setRankingShowFlag}
               stubMode={stubMode}
               setStubMode={setStubMode}
@@ -63,17 +67,32 @@ export const App: React.FC = () => {
         </Grid>
         {/* ステップバー */}
         <Grid item xs={8}>
-          <Box component="span" m={1} style={{ display: stepBarShowFlag ? '' : 'none' }}>
+          <Box
+            component="span"
+            m={1}
+            style={{ display: stepBarShowFlag ? "" : "none" }}
+          >
             <StepBar nowStep={nowStep} />
           </Box>
           {/* コンテンツ配置 */}
-          <Box component="span" m={1} style={{ display: initShowFlag ? '' : 'none' }}>
+          <Box
+            component="span"
+            m={1}
+            style={{ display: initShowFlag ? "" : "none" }}
+          >
             <div>
               <InitContents />
             </div>
           </Box>
-          {areasShowFlag && <SelectArea setNowStep={setNowStep} stubMode={stubMode} />}
-          {selectFlavorShowFlag && <SelectFlavor setNowStep={setNowStep} stubMode={stubMode} />}
+          {areasShowFlag && (
+            <SelectArea setNowStep={setNowStep} stubMode={stubMode} />
+          )}
+          {selectFlavorShowFlag && (
+            <SelectFlavor setNowStep={setNowStep} stubMode={stubMode} />
+          )}
+          {selectBlandShowFlag && (
+            <SelectBland setNowStep={setNowStep} stubMode={stubMode} />
+          )}
           {rankingShowFlag && <RankingArea stubMode={stubMode} />}
           {/* フッター */}
         </Grid>

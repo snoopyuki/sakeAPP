@@ -1,8 +1,8 @@
-import React from 'react';
-import { Button } from '@material-ui/core';
-import Box from '@mui/material/Box';
+import React from "react";
+import { Button } from "@material-ui/core";
+import Box from "@mui/material/Box";
 
-import { DrawerMenu } from './drawerMenu';
+import { DrawerMenu } from "./drawerMenu";
 
 type PropsType = {
   setNowStep: (param: number) => void;
@@ -10,6 +10,7 @@ type PropsType = {
   setinitShowFlag: (param: boolean) => void;
   setAreasShowFlag: (param: boolean) => void;
   setSelectFlavorShowFlag: (param: boolean) => void;
+  setSelectBlandShowFlag: (param: boolean) => void;
   setRankingShowFlag: (param: boolean) => void;
   stubMode: boolean;
   setStubMode: (param: boolean) => void;
@@ -24,11 +25,12 @@ export const Menu: React.FC<PropsType> = (props: PropsType) => {
     setinitShowFlag,
     setAreasShowFlag,
     setSelectFlavorShowFlag,
+    setSelectBlandShowFlag,
     setRankingShowFlag,
     stubMode,
     setStubMode,
     drawerOpen,
-    setDrawerOpen,
+    setDrawerOpen
   } = props;
 
   const onClickArea = () => {
@@ -37,6 +39,7 @@ export const Menu: React.FC<PropsType> = (props: PropsType) => {
     setStepBarShowFlag(true);
     setinitShowFlag(false);
     setAreasShowFlag(true);
+    setSelectBlandShowFlag(false);
     setSelectFlavorShowFlag(false);
     setRankingShowFlag(false);
   };
@@ -45,6 +48,7 @@ export const Menu: React.FC<PropsType> = (props: PropsType) => {
     setStepBarShowFlag(false);
     setinitShowFlag(false);
     setAreasShowFlag(false);
+    setSelectBlandShowFlag(false);
     setSelectFlavorShowFlag(false);
     setRankingShowFlag(true);
   };
@@ -54,6 +58,16 @@ export const Menu: React.FC<PropsType> = (props: PropsType) => {
     setinitShowFlag(false);
     setAreasShowFlag(false);
     setSelectFlavorShowFlag(true);
+    setSelectBlandShowFlag(false);
+    setRankingShowFlag(false);
+  };
+
+  const onClickBland = () => {
+    setStepBarShowFlag(false);
+    setinitShowFlag(false);
+    setAreasShowFlag(false);
+    setSelectFlavorShowFlag(false);
+    setSelectBlandShowFlag(true);
     setRankingShowFlag(false);
   };
 
@@ -61,11 +75,16 @@ export const Menu: React.FC<PropsType> = (props: PropsType) => {
     <>
       <h3>メニュー</h3>
       <Box m={2}>
-        <Button style={{ width: '60%' }} variant="contained" color="primary" onClick={onClickArea}>
+        <Button
+          style={{ width: "60%" }}
+          variant="contained"
+          color="primary"
+          onClick={onClickArea}
+        >
           産地から選ぶ
         </Button>
         <Button
-          style={{ width: '60%' }}
+          style={{ width: "60%" }}
           variant="contained"
           color="primary"
           onClick={onClickFlavor}
@@ -73,7 +92,15 @@ export const Menu: React.FC<PropsType> = (props: PropsType) => {
           フレーバーから選ぶ
         </Button>
         <Button
-          style={{ width: '60%' }}
+          style={{ width: "60%" }}
+          variant="contained"
+          color="primary"
+          onClick={onClickBland}
+        >
+          銘柄から選ぶ
+        </Button>
+        <Button
+          style={{ width: "60%" }}
           variant="contained"
           color="primary"
           onClick={onClickRanking}
